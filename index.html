@@ -3,16 +3,21 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>Caleb Media | Basketball Mixtapes</title>
-  <meta name="description" content="Basketball highlight videos for athletes. First mixtape free. DM 'BOOK' to start." />
+  <title>Caleb Media | Sports Highlights & Photography</title>
+  <meta name="description" content="Professional sports highlight videos and photography for athletes. First mixtape free. DM 'BOOK' to start." />
 
   <!-- Favicon (SVG) -->
   <link rel="icon" href="assets/favicon.svg" type="image/svg+xml" />
 
   <!-- Social preview -->
-  <meta property="og:title" content="Caleb Media | Basketball Mixtapes" />
-  <meta property="og:description" content="First mixtape free. DM 'BOOK' on Instagram to start." />
+  <meta property="og:title" content="Caleb Media | Sports Highlights & Photography" />
+  <meta property="og:description" content="Professional sports videos and photography. First highlight reel free. DM 'BOOK' on Instagram to start." />
   <meta property="og:type" content="website" />
+
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
 
   <!-- Tailwind (CDN) -->
   <script src="https://cdn.tailwindcss.com"></script>
@@ -22,14 +27,39 @@
     tailwind.config = {
       theme: {
         extend: {
+          fontFamily: {
+            display: ['"Bebas Neue"', 'sans-serif'],
+            sans: ['"DM Sans"', 'sans-serif']
+          },
           colors: {
-            ink: "#0b0b0f",
+            ink: "#0a0a0a",
             paper: "#ffffff",
             blaze: "#ff6a00",
-            blaze2: "#ff8a2a"
+            blaze2: "#ff8a2a",
+            court: "#8b4513"
           },
           boxShadow: {
-            glow: "0 0 0 1px rgba(255,106,0,.26), 0 18px 55px rgba(0,0,0,.62)"
+            glow: "0 0 0 1px rgba(255,106,0,.3), 0 20px 60px rgba(255,106,0,.15)",
+            'glow-sm': "0 0 0 1px rgba(255,106,0,.2), 0 10px 30px rgba(255,106,0,.1)"
+          },
+          animation: {
+            'slide-up': 'slideUp 0.6s ease-out',
+            'fade-in': 'fadeIn 0.8s ease-out',
+            'scale-in': 'scaleIn 0.5s ease-out',
+          },
+          keyframes: {
+            slideUp: {
+              '0%': { transform: 'translateY(20px)', opacity: '0' },
+              '100%': { transform: 'translateY(0)', opacity: '1' }
+            },
+            fadeIn: {
+              '0%': { opacity: '0' },
+              '100%': { opacity: '1' }
+            },
+            scaleIn: {
+              '0%': { transform: 'scale(0.95)', opacity: '0' },
+              '100%': { transform: 'scale(1)', opacity: '1' }
+            }
           }
         }
       }
@@ -38,42 +68,71 @@
 
   <style>
     .bg-flavor {
-      background-image:
-        radial-gradient(circle at 18% 22%, rgba(255,106,0,.16), transparent 42%),
-        radial-gradient(circle at 82% 28%, rgba(255,138,42,.12), transparent 45%),
-        radial-gradient(circle at 50% 92%, rgba(255,255,255,.06), transparent 45%),
-        linear-gradient(to bottom, rgba(255,255,255,.04), transparent 22%);
+      background: 
+        radial-gradient(circle at 20% 30%, rgba(255,106,0,.08), transparent 50%),
+        radial-gradient(circle at 80% 20%, rgba(255,138,42,.06), transparent 45%),
+        radial-gradient(circle at 50% 95%, rgba(139,69,19,.04), transparent 40%),
+        linear-gradient(180deg, rgba(10,10,10,1) 0%, rgba(15,15,15,1) 100%);
     }
-    .ring-soft { box-shadow: 0 0 0 1px rgba(255,255,255,.10) inset; }
+    
+    .ring-soft { 
+      box-shadow: 0 0 0 1px rgba(255,255,255,.08) inset; 
+    }
+    
+    .text-gradient {
+      background: linear-gradient(135deg, #ff6a00 0%, #ff8a2a 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    .alert-box {
+      background: linear-gradient(135deg, rgba(255,106,0,0.12) 0%, rgba(255,138,42,0.08) 100%);
+      border-left: 4px solid #ff6a00;
+    }
+
+    .number-badge {
+      background: linear-gradient(135deg, #ff6a00 0%, #ff8a2a 100%);
+      box-shadow: 0 4px 12px rgba(255,106,0,.3);
+    }
+
+    @keyframes pulse-glow {
+      0%, 100% { box-shadow: 0 0 0 1px rgba(255,106,0,.3), 0 20px 60px rgba(255,106,0,.15); }
+      50% { box-shadow: 0 0 0 1px rgba(255,106,0,.5), 0 20px 60px rgba(255,106,0,.25); }
+    }
+
+    .pulse-glow {
+      animation: pulse-glow 3s ease-in-out infinite;
+    }
   </style>
 </head>
 
-<body class="bg-ink text-paper bg-flavor min-h-screen">
+<body class="bg-ink text-paper bg-flavor min-h-screen font-sans">
   <!-- Top bar -->
-  <header class="sticky top-0 z-40 backdrop-blur bg-ink/65 border-b border-white/10">
-    <div class="max-w-6xl mx-auto px-5 py-4 flex items-center justify-between">
-      <a href="#top" class="flex items-center gap-3">
-        <span class="inline-flex h-10 w-10 items-center justify-center rounded-xl bg-blaze text-ink font-black shadow-glow ring-soft">
+  <header class="sticky top-0 z-40 backdrop-blur-xl bg-ink/80 border-b border-white/10">
+    <div class="max-w-7xl mx-auto px-5 py-4 flex items-center justify-between">
+      <a href="#top" class="flex items-center gap-3 group">
+        <span class="inline-flex h-11 w-11 items-center justify-center rounded-xl bg-blaze text-ink font-black shadow-glow ring-soft transition-transform group-hover:scale-105">
           CM
         </span>
         <div class="leading-tight">
-          <div class="font-semibold tracking-tight">Caleb Media</div>
-          <div class="text-xs text-white/60">Basketball mixtapes</div>
+          <div class="font-bold tracking-tight text-lg">Caleb Media</div>
+          <div class="text-xs text-white/60">Sports highlights & photography</div>
         </div>
       </a>
 
-      <nav class="hidden md:flex items-center gap-6 text-sm text-white/80">
-        <!-- <a class="hover:text-white" href="#work">Work</a> -->
-        <a class="hover:text-white" href="#pricing">Pricing</a>
-        <a class="hover:text-white" href="#process">Process</a>
-        <a class="hover:text-white" href="#faq">FAQ</a>
+      <nav class="hidden md:flex items-center gap-6 text-sm text-white/80 font-medium">
+        <a class="hover:text-white transition-colors" href="#pricing">Pricing</a>
+        <a class="hover:text-white transition-colors" href="#rules">Rules</a>
+        <a class="hover:text-white transition-colors" href="#process">Process</a>
+        <a class="hover:text-white transition-colors" href="#faq">FAQ</a>
       </nav>
 
       <div class="flex items-center gap-2">
         <a
           href="https://ig.me/m/caleb.filmguy"
           target="_blank"
-          class="hidden sm:inline-flex items-center gap-2 rounded-xl bg-white text-ink px-4 py-2 text-sm font-semibold hover:bg-white/90"
+          class="hidden sm:inline-flex items-center gap-2 rounded-xl bg-white text-ink px-4 py-2.5 text-sm font-bold hover:bg-white/95 transition-all hover:shadow-glow-sm"
         >
           DM "BOOK"
           <span class="text-blaze font-black">→</span>
@@ -82,7 +141,7 @@
         <a
           href="https://instagram.com/caleb.filmguy"
           target="_blank"
-          class="inline-flex items-center gap-2 rounded-xl border border-white/15 px-4 py-2 text-sm font-semibold text-white/90 hover:bg-white/5"
+          class="inline-flex items-center gap-2 rounded-xl border border-white/15 px-4 py-2.5 text-sm font-semibold text-white/90 hover:bg-white/5 transition-all"
         >
           Profile
         </a>
@@ -91,82 +150,82 @@
   </header>
 
   <!-- Hero -->
-  <main id="top" class="max-w-6xl mx-auto px-5 pt-14 pb-10">
-    <div class="grid md:grid-cols-12 gap-10 items-center">
-      <div class="md:col-span-7">
-        <p class="inline-flex items-center gap-2 text-xs font-semibold uppercase tracking-wider text-white/70">
-          <span class="h-2 w-2 rounded-full bg-blaze"></span>
-          Game filming + clean edits for Reels
-        </p>
+  <main id="top" class="max-w-7xl mx-auto px-5 pt-16 pb-12">
+    <div class="grid lg:grid-cols-12 gap-12 items-start">
+      <div class="lg:col-span-7 animate-slide-up">
+        <div class="inline-flex items-center gap-2 text-xs font-bold uppercase tracking-widest text-white/70 mb-6">
+          <span class="h-2 w-2 rounded-full bg-blaze animate-pulse"></span>
+          Game filming + photography for social & recruiting
+        </div>
 
-        <h1 class="mt-4 text-4xl md:text-5xl font-extrabold tracking-tight leading-[1.05]">
-          Mixtapes that make players look
-          <span class="text-blaze">quick</span>,
-          <span class="text-blaze2">confident</span>, and
-          <span class="text-white">worth watching</span>.
+        <h1 class="text-5xl md:text-6xl lg:text-7xl font-display tracking-tight leading-[0.95] mb-6">
+          Highlights that make athletes look
+          <span class="text-gradient block mt-2">quick, confident,</span>
+          <span class="text-white block">and worth watching</span>
         </h1>
 
-        <p class="mt-5 text-white/75 text-lg leading-relaxed">
-          I show up, film smart, and cut a tight highlight reel built for Instagram.
-          If you want the easiest booking experience, DM me the word <span class="text-white font-semibold">BOOK</span> and my questions will guide you.
+        <p class="text-white/75 text-lg md:text-xl leading-relaxed mb-8 max-w-2xl">
+          I show up, film smart, and create highlight reels that look great on any platform—Instagram, TikTok, YouTube, recruiting profiles, you name it.
+          For the easiest booking experience, DM me the word <span class="text-blaze font-bold">BOOK</span> and my questions will guide you.
         </p>
 
-        <div class="mt-7 flex flex-col sm:flex-row gap-3">
+        <div class="flex flex-col sm:flex-row gap-4 mb-10">
           <a
             href="https://ig.me/m/caleb.filmguy"
             target="_blank"
-            class="rounded-xl bg-blaze text-ink px-5 py-3 font-semibold hover:bg-blaze2 shadow-glow ring-soft"
+            class="inline-flex items-center justify-center gap-2 rounded-xl bg-blaze text-ink px-6 py-4 font-bold text-lg hover:bg-blaze2 shadow-glow ring-soft transition-all hover:scale-105"
           >
-            Open DM (type BOOK) →
+            Open DM (type BOOK)
+            <span class="text-2xl">→</span>
           </a>
           <a
             href="#pricing"
-            class="rounded-xl border border-white/15 px-5 py-3 font-semibold text-white/90 hover:bg-white/5"
+            class="inline-flex items-center justify-center rounded-xl border-2 border-white/15 px-6 py-4 font-bold text-lg text-white/90 hover:bg-white/5 transition-all"
           >
             View pricing
           </a>
         </div>
 
-        <div class="mt-8 flex flex-wrap gap-3 text-sm text-white/70">
-          <span class="rounded-full border border-white/10 px-3 py-1">Vertical first</span>
-          <span class="rounded-full border border-white/10 px-3 py-1">Fast pacing</span>
-          <span class="rounded-full border border-white/10 px-3 py-1">High school friendly</span>
-          <span class="rounded-full border border-white/10 px-3 py-1">Simple booking</span>
+        <div class="flex flex-wrap gap-3">
+          <span class="rounded-full border border-white/20 bg-white/5 px-4 py-2 text-sm font-medium">Video + Photo</span>
+          <span class="rounded-full border border-white/20 bg-white/5 px-4 py-2 text-sm font-medium">All sports</span>
+          <span class="rounded-full border border-white/20 bg-white/5 px-4 py-2 text-sm font-medium">Multi-platform ready</span>
+          <span class="rounded-full border border-white/20 bg-white/5 px-4 py-2 text-sm font-medium">Simple booking</span>
         </div>
       </div>
 
       <!-- Booking card -->
-      <div class="md:col-span-5">
-        <div class="rounded-2xl border border-white/10 bg-white/5 p-6 shadow-glow ring-soft">
-          <div class="flex items-start justify-between gap-4">
+      <div class="lg:col-span-5 animate-scale-in">
+        <div class="rounded-2xl border border-white/10 bg-gradient-to-br from-white/10 to-white/5 p-7 shadow-glow ring-soft backdrop-blur-sm">
+          <div class="flex items-start justify-between gap-4 mb-6">
             <div>
-              <h2 class="font-semibold text-lg">Booking instructions</h2>
-              <p class="mt-1 text-sm text-white/65">
-                DM me <span class="text-white font-semibold">BOOK</span>. You’ll get a quick set of questions so I have everything I need.
+              <h2 class="font-bold text-xl mb-2">Quick booking</h2>
+              <p class="text-sm text-white/70">
+                DM me <span class="text-blaze font-bold">BOOK</span>. You'll get a quick set of questions so I have everything I need.
               </p>
             </div>
           </div>
 
-          <div class="mt-5 space-y-3 text-sm text-white/80">
-            <div class="flex items-start gap-3">
-              <span class="mt-1 inline-block h-2 w-2 rounded-full bg-blaze"></span>
-              <p><span class="font-semibold text-white">Send:</span> name, team, jersey #, position</p>
+          <div class="space-y-3 text-sm text-white/80 mb-6">
+            <div class="flex items-start gap-3 p-3 rounded-lg bg-white/5">
+              <span class="mt-0.5 inline-block h-2 w-2 rounded-full bg-blaze"></span>
+              <p><span class="font-bold text-white">Send:</span> name, team/school, jersey # (if applicable), sport</p>
             </div>
-            <div class="flex items-start gap-3">
-              <span class="mt-1 inline-block h-2 w-2 rounded-full bg-blaze2"></span>
-              <p><span class="font-semibold text-white">Game:</span> date/time + gym location</p>
+            <div class="flex items-start gap-3 p-3 rounded-lg bg-white/5">
+              <span class="mt-0.5 inline-block h-2 w-2 rounded-full bg-blaze2"></span>
+              <p><span class="font-bold text-white">Event:</span> date/time + location</p>
             </div>
-            <div class="flex items-start gap-3">
-              <span class="mt-1 inline-block h-2 w-2 rounded-full bg-white"></span>
-              <p><span class="font-semibold text-white">Style:</span> hype, clean, or story (tell me your vibe)</p>
+            <div class="flex items-start gap-3 p-3 rounded-lg bg-white/5">
+              <span class="mt-0.5 inline-block h-2 w-2 rounded-full bg-white"></span>
+              <p><span class="font-bold text-white">Style:</span> hype, clean, or story (tell me your vibe)</p>
             </div>
           </div>
 
-          <div class="mt-6 grid grid-cols-1 sm:grid-cols-2 gap-3">
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 mb-4">
             <a
               href="https://ig.me/m/caleb.filmguy"
               target="_blank"
-              class="inline-flex w-full items-center justify-center gap-2 rounded-xl bg-white text-ink px-4 py-3 font-semibold hover:bg-white/90"
+              class="inline-flex w-full items-center justify-center gap-2 rounded-xl bg-white text-ink px-5 py-3.5 font-bold hover:bg-white/95 transition-all hover:shadow-glow-sm"
             >
               DM "BOOK"
               <span class="text-blaze font-black">→</span>
@@ -174,281 +233,496 @@
 
             <a
               href="#process"
-              class="inline-flex w-full items-center justify-center gap-2 rounded-xl border border-white/15 px-4 py-3 font-semibold text-white/90 hover:bg-white/5"
+              class="inline-flex w-full items-center justify-center gap-2 rounded-xl border border-white/20 px-5 py-3.5 font-semibold text-white/90 hover:bg-white/5 transition-all"
             >
               How it works
-              <span class="text-blaze font-black">→</span>
             </a>
           </div>
 
-          <p class="mt-3 text-xs text-white/60">
-            If you do not want the automation, just DM normally. BOOK is just faster.
+          <p class="text-xs text-white/50 text-center">
+            Don't want automation? Just DM normally. BOOK is faster.
           </p>
         </div>
       </div>
     </div>
   </main>
 
-  <!-- Work
-  <section id="work" class="max-w-6xl mx-auto px-5 py-12">
-    <div class="flex items-end justify-between gap-6">
-      <div>
-        <h2 class="text-2xl font-bold tracking-tight">Work</h2>
-        <p class="mt-2 text-white/70">
-          Put your best 3 here. Quality over quantity. Link to IG posts, YouTube, or Drive.
-        </p>
+  <!-- CRITICAL BOOKING RULES SECTION -->
+  <section id="rules" class="max-w-7xl mx-auto px-5 py-16">
+    <div class="text-center mb-12">
+      <div class="inline-flex items-center gap-2 text-xs font-bold uppercase tracking-widest text-blaze mb-4">
+        <span class="h-2 w-8 bg-blaze"></span>
+        Read before booking
+        <span class="h-2 w-8 bg-blaze"></span>
       </div>
-      <a class="text-sm text-white/70 hover:text-white" href="https://instagram.com/caleb.filmguy" target="_blank">
-        See more on IG →
-      </a>
+      <h2 class="text-4xl md:text-5xl font-display tracking-tight mb-4">Booking & Pricing Rules</h2>
+      <p class="text-white/70 text-lg max-w-3xl mx-auto">
+        Everything you need to know before you book. No surprises, no confusion.
+      </p>
     </div>
 
-    <div class="mt-6 grid md:grid-cols-3 gap-4">
-      <a href="#" class="group rounded-2xl border border-white/10 bg-white/5 p-6 hover:bg-white/10 transition ring-soft">
-        <p class="text-xs text-white/60 uppercase tracking-wider">Mixtape</p>
-        <h3 class="mt-2 font-semibold text-lg group-hover:text-white">Jace | 2026</h3>
-        <p class="mt-2 text-sm text-white/70">60–90 sec, vertical, clean cuts</p>
-        <p class="mt-4 text-sm text-blaze font-semibold">Watch →</p>
-      </a>
-
-      <a href="#" class="group rounded-2xl border border-white/10 bg-white/5 p-6 hover:bg-white/10 transition ring-soft">
-        <p class="text-xs text-white/60 uppercase tracking-wider">Mixtape</p>
-        <h3 class="mt-2 font-semibold text-lg group-hover:text-white">Player Name | 2026</h3>
-        <p class="mt-2 text-sm text-white/70">Impact plays only, no filler</p>
-        <p class="mt-4 text-sm text-blaze font-semibold">Watch →</p>
-      </a>
-
-      <a href="#" class="group rounded-2xl border border-white/10 bg-white/5 p-6 hover:bg-white/10 transition ring-soft">
-        <p class="text-xs text-white/60 uppercase tracking-wider">Season edit</p>
-        <h3 class="mt-2 font-semibold text-lg group-hover:text-white">Player Name | Season</h3>
-        <p class="mt-2 text-sm text-white/70">2–3 min, more moments, more story</p>
-        <p class="mt-4 text-sm text-blaze font-semibold">Watch →</p>
-      </a>
+    <!-- MOST IMPORTANT RULE -->
+    <div class="alert-box rounded-2xl p-8 mb-8 ring-soft pulse-glow">
+      <div class="flex items-start gap-4">
+        <div class="flex-shrink-0">
+          <div class="number-badge h-12 w-12 rounded-xl flex items-center justify-center text-ink font-black text-xl ring-soft">
+            !
+          </div>
+        </div>
+        <div>
+          <h3 class="font-display text-2xl text-blaze mb-2">Most Important Rule</h3>
+          <p class="text-white text-lg font-bold leading-relaxed">
+            Booking is for filming time and editing, not guaranteed highlights.
+          </p>
+          <p class="text-white/70 mt-2">
+            This means you're paying for my time at the event and the editing work—not for a specific number of clips or a guaranteed outcome.
+          </p>
+        </div>
+      </div>
     </div>
-  </section> -->
 
-<!-- Pricing -->
-<section id="pricing" class="max-w-6xl mx-auto px-5 py-12">
-  <div class="rounded-3xl border border-white/10 bg-gradient-to-b from-white/10 to-white/5 p-7 md:p-10 shadow-glow ring-soft">
-
-    <div class="flex flex-col md:flex-row md:items-end md:justify-between gap-6">
-      <div>
-        <h2 class="text-2xl font-bold tracking-tight">Pricing</h2>
-        <p class="mt-2 text-white/70 max-w-2xl">
-          Pricing is based on filming time + editing. Every mixtape is paced to music and built for Instagram.
-          If you want a specific vibe, tell me before the game so I cut it right the first time.
-        </p>
+    <!-- Rules Grid -->
+    <div class="grid md:grid-cols-2 gap-6">
+      <!-- Free Tier -->
+      <div class="rounded-2xl border border-white/10 bg-gradient-to-br from-white/8 to-white/3 p-6 ring-soft">
+        <div class="flex items-center gap-3 mb-4">
+          <div class="number-badge h-10 w-10 rounded-lg flex items-center justify-center text-ink font-black text-lg">
+            1
+          </div>
+          <h3 class="font-display text-2xl">Free Tier</h3>
+        </div>
+        <p class="text-sm text-white/60 mb-4 italic">First-time clients only</p>
+        <ul class="space-y-3 text-sm text-white/80">
+          <li class="flex items-start gap-2">
+            <span class="text-blaze mt-1">•</span>
+            <span>One free introductory highlight reel may be offered</span>
+          </li>
+          <li class="flex items-start gap-2">
+            <span class="text-blaze mt-1">•</span>
+            <span>Free highlights are up to 30 seconds</span>
+          </li>
+          <li class="flex items-start gap-2">
+            <span class="text-blaze mt-1">•</span>
+            <span>Best plays only</span>
+          </li>
+          <li class="flex items-start gap-2">
+            <span class="text-blaze mt-1">•</span>
+            <span>One delivery</span>
+          </li>
+          <li class="flex items-start gap-2">
+            <span class="text-blaze mt-1">•</span>
+            <span><strong>No revisions</strong> unless upgrading to paid package</span>
+          </li>
+          <li class="flex items-start gap-2">
+            <span class="text-blaze mt-1">•</span>
+            <span>Availability is limited—paid clients are prioritized</span>
+          </li>
+        </ul>
       </div>
 
+      <!-- Paid Highlights -->
+      <div class="rounded-2xl border border-white/10 bg-gradient-to-br from-white/8 to-white/3 p-6 ring-soft">
+        <div class="flex items-center gap-3 mb-4">
+          <div class="number-badge h-10 w-10 rounded-lg flex items-center justify-center text-ink font-black text-lg">
+            2
+          </div>
+          <h3 class="font-display text-2xl">Paid Service</h3>
+        </div>
+        <p class="text-sm text-white/60 mb-4 italic">Professional coverage</p>
+        <ul class="space-y-3 text-sm text-white/80">
+          <li class="flex items-start gap-2">
+            <span class="text-blaze mt-1">•</span>
+            <span><strong>$25</strong> single-game video or <strong>$40</strong> two-game bundle</span>
+          </li>
+          <li class="flex items-start gap-2">
+            <span class="text-blaze mt-1">•</span>
+            <span>Photography packages available (ask for pricing)</span>
+          </li>
+          <li class="flex items-start gap-2">
+            <span class="text-blaze mt-1">•</span>
+            <span>Focus is on the booked athlete, not the entire team</span>
+          </li>
+          <li class="flex items-start gap-2">
+            <span class="text-blaze mt-1">•</span>
+            <span>Final video length and pacing are based on available clips</span>
+          </li>
+          <li class="flex items-start gap-2">
+            <span class="text-blaze mt-1">•</span>
+            <span>One delivery included</span>
+          </li>
+        </ul>
+      </div>
+
+      <!-- Payment -->
+      <div class="rounded-2xl border border-white/10 bg-gradient-to-br from-white/8 to-white/3 p-6 ring-soft">
+        <div class="flex items-center gap-3 mb-4">
+          <div class="number-badge h-10 w-10 rounded-lg flex items-center justify-center text-ink font-black text-lg">
+            3
+          </div>
+          <h3 class="font-display text-2xl">Payment</h3>
+        </div>
+        <ul class="space-y-3 text-sm text-white/80">
+          <li class="flex items-start gap-2">
+            <span class="text-blaze mt-1">•</span>
+            <span>Payment is split: <strong>50% due on the day of the shoot</strong>, <strong>50% due before delivery</strong></span>
+          </li>
+          <li class="flex items-start gap-2">
+            <span class="text-blaze mt-1">•</span>
+            <span>Delivery begins after full payment is received</span>
+          </li>
+          <li class="flex items-start gap-2">
+            <span class="text-blaze mt-1">•</span>
+            <span>Rush delivery and add-ons cost extra</span>
+          </li>
+        </ul>
+      </div>
+
+      <!-- Travel -->
+      <div class="rounded-2xl border border-white/10 bg-gradient-to-br from-white/8 to-white/3 p-6 ring-soft">
+        <div class="flex items-center gap-3 mb-4">
+          <div class="number-badge h-10 w-10 rounded-lg flex items-center justify-center text-ink font-black text-lg">
+            4
+          </div>
+          <h3 class="font-display text-2xl">Travel</h3>
+        </div>
+        <ul class="space-y-3 text-sm text-white/80">
+          <li class="flex items-start gap-2">
+            <span class="text-blaze mt-1">•</span>
+            <span>Free travel within 5 miles of Oviedo</span>
+          </li>
+          <li class="flex items-start gap-2">
+            <span class="text-blaze mt-1">•</span>
+            <span><strong>+$5 for every additional 5 miles</strong> outside that area (rounded up)</span>
+          </li>
+        </ul>
+      </div>
+
+      <!-- Game Entry -->
+      <div class="rounded-2xl border border-white/10 bg-gradient-to-br from-white/8 to-white/3 p-6 ring-soft">
+        <div class="flex items-center gap-3 mb-4">
+          <div class="number-badge h-10 w-10 rounded-lg flex items-center justify-center text-ink font-black text-lg">
+            5
+          </div>
+          <h3 class="font-display text-2xl">Game Entry / Tickets</h3>
+        </div>
+        <ul class="space-y-3 text-sm text-white/80">
+          <li class="flex items-start gap-2">
+            <span class="text-blaze mt-1">•</span>
+            <span>If a game requires a ticket for entry, the client is responsible for providing or covering the ticket</span>
+          </li>
+          <li class="flex items-start gap-2">
+            <span class="text-blaze mt-1">•</span>
+            <span>Press or school passes are not guaranteed to work at every venue</span>
+          </li>
+        </ul>
+      </div>
+
+      <!-- Playing Time -->
+      <div class="rounded-2xl border border-blaze/30 bg-gradient-to-br from-blaze/10 to-blaze/5 p-6 ring-soft">
+        <div class="flex items-center gap-3 mb-4">
+          <div class="number-badge h-10 w-10 rounded-lg flex items-center justify-center text-ink font-black text-lg">
+            6
+          </div>
+          <h3 class="font-display text-2xl text-blaze">Playing Time / Footage</h3>
+        </div>
+        <p class="text-sm text-blaze/80 font-bold mb-4 uppercase tracking-wide">Important — Read Carefully</p>
+        <ul class="space-y-3 text-sm text-white/90">
+          <li class="flex items-start gap-2">
+            <span class="text-blaze mt-1">•</span>
+            <span><strong>Playing time is not guaranteed</strong></span>
+          </li>
+          <li class="flex items-start gap-2">
+            <span class="text-blaze mt-1">•</span>
+            <span>If an athlete receives little or no playing time and usable clips are limited or unavailable, <strong>there is no refund</strong></span>
+          </li>
+          <li class="flex items-start gap-2">
+            <span class="text-blaze mt-1">•</span>
+            <span>The highlight reel is based on whatever usable footage is available from the event</span>
+          </li>
+          <li class="flex items-start gap-2">
+            <span class="text-blaze mt-1">•</span>
+            <span><strong>Lack of playing time does not void payment or booking</strong></span>
+          </li>
+        </ul>
+      </div>
+    </div>
+
+    <!-- Bottom CTA -->
+    <div class="mt-10 text-center">
+      <p class="text-white/70 mb-6 text-lg">
+        By booking, you agree to these terms. Questions? DM me before booking.
+      </p>
       <a
         href="https://ig.me/m/caleb.filmguy"
         target="_blank"
-        class="inline-flex items-center justify-center rounded-xl bg-blaze text-ink px-5 py-3 font-semibold hover:bg-blaze2 ring-soft"
+        class="inline-flex items-center gap-2 rounded-xl bg-blaze text-ink px-8 py-4 font-bold text-lg hover:bg-blaze2 shadow-glow ring-soft transition-all hover:scale-105"
       >
-        DM "BOOK" to start →
+        DM "BOOK" to Get Started
+        <span class="text-2xl">→</span>
       </a>
     </div>
+  </section>
 
-    <!-- Pricing cards -->
-    <div class="mt-7 grid md:grid-cols-3 gap-4">
-      <div class="rounded-2xl border border-white/10 bg-ink/40 p-6 ring-soft transition duration-200 ease-out md:hover:-translate-y-1 md:hover:border-white/20 md:hover:shadow-glow">
-        <p class="text-sm text-white/60">First-time clients</p>
-        <h3 class="mt-1 text-xl font-bold">Free Mixtape</h3>
-        <p class="mt-2 text-white/70 text-sm">One game shoot + 60–90 sec vertical edit</p>
-        <ul class="mt-4 space-y-2 text-sm text-white/75">
+  <!-- Pricing -->
+  <section id="pricing" class="max-w-7xl mx-auto px-5 py-16 border-t border-white/10">
+    <div class="text-center mb-12">
+      <h2 class="text-4xl md:text-5xl font-display tracking-tight mb-4">Pricing</h2>
+      <p class="text-white/70 text-lg max-w-3xl mx-auto">
+        Simple, transparent pricing. No hidden fees.
+      </p>
+    </div>
+
+    <div class="grid md:grid-cols-3 gap-6 mb-12">
+      <!-- Free -->
+      <div class="rounded-2xl border border-white/10 bg-gradient-to-br from-white/8 to-white/3 p-7 ring-soft transition-all hover:border-white/20 hover:shadow-glow-sm">
+        <div class="text-sm font-bold text-white/60 uppercase tracking-wider mb-2">First-time only</div>
+        <div class="text-4xl font-display mb-2">Free</div>
+        <p class="text-white/70 text-sm mb-6">Try before you buy</p>
+        <ul class="space-y-3 text-sm text-white/75 mb-6">
+          <li>• One free 30-sec highlight reel</li>
           <li>• Best plays only</li>
           <li>• One delivery</li>
-          <li>• No revisions (unless upgraded)</li>
+          <li>• No revisions</li>
         </ul>
+        <a
+          href="https://ig.me/m/caleb.filmguy"
+          target="_blank"
+          class="block text-center rounded-xl border border-white/20 px-5 py-3 font-semibold text-white/90 hover:bg-white/5 transition-all"
+        >
+          Book free
+        </a>
       </div>
 
-      <div class="rounded-2xl border border-blaze/40 bg-ink/40 p-6 ring-soft transition duration-200 ease-out md:hover:-translate-y-1 md:hover:border-blaze/70 md:hover:shadow-glow">
-        <p class="text-sm text-white/60">Standard</p>
-        <h3 class="mt-1 text-xl font-bold">$25 Mixtape</h3>
-        <p class="mt-2 text-white/70 text-sm">One game shoot + 60–90 sec vertical edit</p>
-        <ul class="mt-4 space-y-2 text-sm text-white/75">
-          <li>• Focus on you (not the whole team)</li>
-          <li>• Best moments, no filler</li>
-          <li>• Reel-ready export</li>
+      <!-- Single Event -->
+      <div class="rounded-2xl border-2 border-blaze bg-gradient-to-br from-blaze/15 to-blaze/5 p-7 ring-soft shadow-glow relative overflow-hidden">
+        <div class="absolute top-4 right-4 bg-blaze text-ink text-xs font-bold px-3 py-1 rounded-full">
+          POPULAR
+        </div>
+        <div class="text-sm font-bold text-blaze uppercase tracking-wider mb-2">Single event</div>
+        <div class="text-4xl font-display mb-2">$25</div>
+        <p class="text-white/70 text-sm mb-6">One game/event coverage</p>
+        <ul class="space-y-3 text-sm text-white/85 mb-6">
+          <li>• Full event filming</li>
+          <li>• Professional edit</li>
+          <li>• Multi-platform ready</li>
+          <li>• One delivery</li>
         </ul>
+        <a
+          href="https://ig.me/m/caleb.filmguy"
+          target="_blank"
+          class="block text-center rounded-xl bg-blaze text-ink px-5 py-3 font-bold hover:bg-blaze2 transition-all"
+        >
+          Book $25
+        </a>
       </div>
 
-      <div class="rounded-2xl border border-white/10 bg-ink/40 p-6 ring-soft transition duration-200 ease-out md:hover:-translate-y-1 md:hover:border-white/20 md:hover:shadow-glow">
-        <p class="text-sm text-white/60">Best value</p>
-        <h3 class="mt-1 text-xl font-bold">$40 Bundle</h3>
-        <p class="mt-2 text-white/70 text-sm">Two games filmed, one stronger edit</p>
-        <ul class="mt-4 space-y-2 text-sm text-white/75">
-          <li>• More clips to choose from</li>
-          <li>• Better final pacing</li>
-          <li>• More consistent look</li>
+      <!-- Two Event Bundle -->
+      <div class="rounded-2xl border border-white/10 bg-gradient-to-br from-white/8 to-white/3 p-7 ring-soft transition-all hover:border-white/20 hover:shadow-glow-sm">
+        <div class="text-sm font-bold text-white/60 uppercase tracking-wider mb-2">Bundle</div>
+        <div class="text-4xl font-display mb-2">$40</div>
+        <p class="text-white/70 text-sm mb-6">Two events (save $10)</p>
+        <ul class="space-y-3 text-sm text-white/75 mb-6">
+          <li>• Two games/events filmed</li>
+          <li>• Combined edit</li>
+          <li>• More footage = better reel</li>
+          <li>• One delivery</li>
         </ul>
+        <a
+          href="https://ig.me/m/caleb.filmguy"
+          target="_blank"
+          class="block text-center rounded-xl border border-white/20 px-5 py-3 font-semibold text-white/90 hover:bg-white/5 transition-all"
+        >
+          Book $40
+        </a>
       </div>
     </div>
 
-    <!-- More explanation -->
-    <div class="mt-8 grid md:grid-cols-3 gap-4">
-      <div class="rounded-2xl border border-white/10 bg-ink/30 p-6 ring-soft transition duration-200 ease-out md:hover:-translate-y-1 md:hover:border-white/20 md:hover:shadow-glow">
-        <h3 class="font-semibold">Included</h3>
-        <ul class="mt-3 space-y-2 text-sm text-white/75">
-          <li>• Filming your game (focus on you)</li>
-          <li>• Music timing + tight cuts</li>
-          <li>• Color/clarity polish</li>
-          <li>• Vertical export for Reels</li>
+    <!-- What's Included / Not Included -->
+    <div class="grid md:grid-cols-3 gap-6 mb-8">
+      <div class="rounded-2xl border border-white/10 bg-ink/30 p-6 ring-soft">
+        <h3 class="font-display text-xl mb-4">What's included</h3>
+        <ul class="space-y-2 text-sm text-white/75">
+          <li>• Filming focused on your athlete</li>
+          <li>• Clean, professional editing</li>
+          <li>• Vertical & horizontal formats</li>
+          <li>• Multi-platform ready export</li>
+          <li>• Your choice of song (videos)</li>
+          <li>• Photos available (ask for pricing)</li>
         </ul>
       </div>
 
-      <div class="rounded-2xl border border-white/10 bg-ink/30 p-6 ring-soft transition duration-200 ease-out md:hover:-translate-y-1 md:hover:border-white/20 md:hover:shadow-glow">
-        <h3 class="font-semibold">Not included</h3>
-        <ul class="mt-3 space-y-2 text-sm text-white/75">
-          <li>• Full uncut game footage</li>
+      <div class="rounded-2xl border border-white/10 bg-ink/30 p-6 ring-soft">
+        <h3 class="font-display text-xl mb-4">Not included</h3>
+        <ul class="space-y-2 text-sm text-white/75">
+          <li>• Full uncut event footage</li>
           <li>• Unlimited changes</li>
           <li>• Filming every teammate equally</li>
           <li>• Posting it for you</li>
         </ul>
       </div>
 
-      <div class="rounded-2xl border border-white/10 bg-ink/30 p-6 ring-soft transition duration-200 ease-out md:hover:-translate-y-1 md:hover:border-white/20 md:hover:shadow-glow">
-        <h3 class="font-semibold">Payment + travel</h3>
-        <ul class="mt-3 space-y-2 text-sm text-white/75">
-          <li>• Payment due after filming, before delivery</li>
-          <li>• Rush delivery: +$10</li>
-          <li>• Extra vertical cut: +$10</li>
-          <li>
-            • Travel: free within 5 miles of Oviedo.
-            +$5 outside that zone (most places are $5–$10).
-          </li>
-          <li> • If a game requires a ticket for entry, the client is responsible for providing or covering the ticket. Press or school passes are not guaranteed at every venue.
-</li>
+      <div class="rounded-2xl border border-white/10 bg-ink/30 p-6 ring-soft">
+        <h3 class="font-display text-xl mb-4">Add-ons</h3>
+        <ul class="space-y-2 text-sm text-white/75">
+          <li>• Rush delivery: <strong>+$10</strong></li>
+          <li>• Extra format: <strong>+$10</strong></li>
+          <li>• Travel (per 5 miles): <strong>+$5</strong></li>
+          <li>• Event ticket: <strong>client provides</strong></li>
+          <li>• Photography: <strong>DM for pricing</strong></li>
         </ul>
       </div>
     </div>
 
-  </div>
-        <div class="mt-8 rounded-2xl border border-white/10 bg-white/5 p-6 ring-soft">
-        <h3 class="font-semibold">Fastest way to book</h3>
-        <p class="mt-2 text-sm text-white/70">
-          DM me the word <span class="text-white font-semibold">BOOK</span>. You’ll get questions like: name, team, jersey #, game time, location, and what package you want.
-          That’s how I keep it quick and organized.
-        </p>
+    <div class="rounded-2xl border border-white/10 bg-white/5 p-7 ring-soft">
+      <h3 class="font-display text-xl mb-3">Fastest way to book</h3>
+      <p class="text-sm text-white/70 mb-5">
+        DM me the word <span class="text-blaze font-bold">BOOK</span>. You'll get questions like: name, team, jersey #, game time, location, and what package you want.
+        That's how I keep it quick and organized.
+      </p>
 
-        <div class="mt-4 flex flex-col sm:flex-row gap-3">
-          <a
-            href="https://ig.me/m/caleb.filmguy"
-            target="_blank"
-            class="inline-flex items-center justify-center rounded-xl bg-white text-ink px-5 py-3 font-semibold hover:bg-white/90 ring-soft"
-          >
-            DM "BOOK" →
-          </a>
-          <a
-            href="https://instagram.com/caleb.filmguy"
-            target="_blank"
-            class="inline-flex items-center justify-center rounded-xl border border-white/15 px-5 py-3 font-semibold text-white/90 hover:bg-white/5"
-          >
-            Open Instagram →
-          </a>
-        </div>
+      <div class="flex flex-col sm:flex-row gap-3">
+        <a
+          href="https://ig.me/m/caleb.filmguy"
+          target="_blank"
+          class="inline-flex items-center justify-center rounded-xl bg-white text-ink px-6 py-3 font-bold hover:bg-white/95 ring-soft transition-all"
+        >
+          DM "BOOK" →
+        </a>
+        <a
+          href="https://instagram.com/caleb.filmguy"
+          target="_blank"
+          class="inline-flex items-center justify-center rounded-xl border border-white/15 px-6 py-3 font-semibold text-white/90 hover:bg-white/5 transition-all"
+        >
+          Open Instagram →
+        </a>
       </div>
     </div>
-</section>
+  </section>
 
   <!-- Process -->
-  <section id="process" class="max-w-6xl mx-auto px-5 py-12">
-    <h2 class="text-2xl font-bold tracking-tight">How it works</h2>
-    <p class="mt-2 text-white/70 max-w-3xl">
-      This is the part that makes you look professional. Clear process, no confusion, no endless messages.
-    </p>
+  <section id="process" class="max-w-7xl mx-auto px-5 py-16 border-t border-white/10">
+    <div class="text-center mb-12">
+      <h2 class="text-4xl md:text-5xl font-display tracking-tight mb-4">How it works</h2>
+      <p class="text-white/70 text-lg max-w-3xl mx-auto">
+        Clear process, no confusion, no endless messages.
+      </p>
+    </div>
 
-    <div class="mt-6 grid md:grid-cols-4 gap-4">
-      <div class="rounded-2xl border border-white/10 bg-white/5 p-6 ring-soft">
-        <p class="text-xs text-white/60 uppercase tracking-wider">Step 1</p>
-        <h3 class="mt-2 font-semibold">DM "BOOK"</h3>
-        <p class="mt-2 text-sm text-white/70">ManyChat asks the questions so I get details fast.</p>
+    <div class="grid md:grid-cols-4 gap-5 mb-8">
+      <div class="rounded-2xl border border-white/10 bg-white/5 p-6 ring-soft transition-all hover:border-white/20 hover:shadow-glow-sm">
+        <div class="number-badge h-12 w-12 rounded-xl flex items-center justify-center text-ink font-black text-xl mb-4">
+          1
+        </div>
+        <h3 class="font-display text-xl mb-2">DM "BOOK"</h3>
+        <p class="text-sm text-white/70">Automated questions get all the details I need fast.</p>
       </div>
 
-      <div class="rounded-2xl border border-white/10 bg-white/5 p-6 ring-soft">
-        <p class="text-xs text-white/60 uppercase tracking-wider">Step 2</p>
-        <h3 class="mt-2 font-semibold">I film the game</h3>
-        <p class="mt-2 text-sm text-white/70">I focus on you and the moments that actually matter.</p>
+      <div class="rounded-2xl border border-white/10 bg-white/5 p-6 ring-soft transition-all hover:border-white/20 hover:shadow-glow-sm">
+        <div class="number-badge h-12 w-12 rounded-xl flex items-center justify-center text-ink font-black text-xl mb-4">
+          2
+        </div>
+        <h3 class="font-display text-xl mb-2">I film the event</h3>
+        <p class="text-sm text-white/70">I focus on your athlete and capture the moments that matter.</p>
       </div>
 
-      <div class="rounded-2xl border border-white/10 bg-white/5 p-6 ring-soft">
-        <p class="text-xs text-white/60 uppercase tracking-wider">Step 3</p>
-        <h3 class="mt-2 font-semibold">I edit the mixtape</h3>
-        <p class="mt-2 text-sm text-white/70">Tight pacing, clean cuts, reel-ready export.</p>
+      <div class="rounded-2xl border border-white/10 bg-white/5 p-6 ring-soft transition-all hover:border-white/20 hover:shadow-glow-sm">
+        <div class="number-badge h-12 w-12 rounded-xl flex items-center justify-center text-ink font-black text-xl mb-4">
+          3
+        </div>
+        <h3 class="font-display text-xl mb-2">I edit the highlights</h3>
+        <p class="text-sm text-white/70">Tight pacing, clean cuts, platform-ready export.</p>
       </div>
 
-      <div class="rounded-2xl border border-white/10 bg-white/5 p-6 ring-soft">
-        <p class="text-xs text-white/60 uppercase tracking-wider">Step 4</p>
-        <h3 class="mt-2 font-semibold">Delivery</h3>
-        <p class="mt-2 text-sm text-white/70">You get the final video ready to post.</p>
+      <div class="rounded-2xl border border-white/10 bg-white/5 p-6 ring-soft transition-all hover:border-white/20 hover:shadow-glow-sm">
+        <div class="number-badge h-12 w-12 rounded-xl flex items-center justify-center text-ink font-black text-xl mb-4">
+          4
+        </div>
+        <h3 class="font-display text-xl mb-2">Delivery</h3>
+        <p class="text-sm text-white/70">You get the final video ready to share anywhere.</p>
       </div>
     </div>
 
-    <div class="mt-6 rounded-2xl border border-white/10 bg-ink/30 p-6 ring-soft">
-      <h3 class="font-semibold">What I need from you (copy/paste into DM)</h3>
-      <div class="mt-3 grid md:grid-cols-2 gap-3 text-sm text-white/75">
-        <div class="rounded-xl border border-white/10 bg-white/5 p-4">
-          <p><span class="text-white font-semibold">Name:</span> ___</p>
-          <p><span class="text-white font-semibold">Team:</span> ___</p>
-          <p><span class="text-white font-semibold">Jersey #:</span> ___</p>
-          <p><span class="text-white font-semibold">Position:</span> ___</p>
+    <div class="rounded-2xl border border-white/10 bg-ink/30 p-7 ring-soft">
+      <h3 class="font-display text-xl mb-4">What I need from you (copy/paste into DM)</h3>
+      <div class="grid md:grid-cols-2 gap-4">
+        <div class="rounded-xl border border-white/10 bg-white/5 p-5">
+          <p class="mb-2"><span class="text-blaze font-bold">Athlete name:</span> ___</p>
+          <p class="mb-2"><span class="text-blaze font-bold">Team/School:</span> ___</p>
+          <p class="mb-2"><span class="text-blaze font-bold">Jersey # (if applicable):</span> ___</p>
+          <p><span class="text-blaze font-bold">Sport:</span> ___</p>
         </div>
-        <div class="rounded-xl border border-white/10 bg-white/5 p-4">
-          <p><span class="text-white font-semibold">Game date/time:</span> ___</p>
-          <p><span class="text-white font-semibold">Location:</span> ___</p>
-          <p><span class="text-white font-semibold">Package:</span> Free / $25 / $40</p>
-          <p><span class="text-white font-semibold">Song:</span> ___ (clean preferred)</p>
+        <div class="rounded-xl border border-white/10 bg-white/5 p-5">
+          <p class="mb-2"><span class="text-blaze font-bold">Event date/time:</span> ___</p>
+          <p class="mb-2"><span class="text-blaze font-bold">Location:</span> ___</p>
+          <p class="mb-2"><span class="text-blaze font-bold">Package:</span> Free / $25 / $40</p>
+          <p><span class="text-blaze font-bold">Song (videos):</span> ___ (clean preferred)</p>
         </div>
       </div>
     </div>
   </section>
 
   <!-- FAQ -->
-  <section id="faq" class="max-w-6xl mx-auto px-5 py-12">
-    <h2 class="text-2xl font-bold tracking-tight">FAQ</h2>
+  <section id="faq" class="max-w-7xl mx-auto px-5 py-16 border-t border-white/10">
+    <div class="text-center mb-12">
+      <h2 class="text-4xl md:text-5xl font-display tracking-tight mb-4">FAQ</h2>
+    </div>
 
-    <div class="mt-6 grid md:grid-cols-2 gap-4">
+    <div class="grid md:grid-cols-2 gap-5 mb-8">
       <div class="rounded-2xl border border-white/10 bg-white/5 p-6 ring-soft">
-        <h3 class="font-semibold">How long does it take?</h3>
-        <p class="mt-2 text-sm text-white/70">
-          Usually 2–4 days depending on school and game schedule. Rush is available.
+        <h3 class="font-display text-xl mb-3">How long does it take?</h3>
+        <p class="text-sm text-white/70">
+          Usually 2–4 days depending on schedule. Rush delivery is available for +$10.
         </p>
       </div>
 
       <div class="rounded-2xl border border-white/10 bg-white/5 p-6 ring-soft">
-        <h3 class="font-semibold">Can I pick the song?</h3>
-        <p class="mt-2 text-sm text-white/70">
-          Yes. The choice is yours.
+        <h3 class="font-display text-xl mb-3">Can I pick the song?</h3>
+        <p class="text-sm text-white/70">
+          Yes. The choice is yours. Clean versions are preferred for high school content.
         </p>
       </div>
 
       <div class="rounded-2xl border border-white/10 bg-white/5 p-6 ring-soft">
-        <h3 class="font-semibold">Do you film multiple players?</h3>
-        <p class="mt-2 text-sm text-white/70">
-          I can, but each player needs their own edit. One price does not cover the whole roster.
+        <h3 class="font-display text-xl mb-3">Do you film multiple athletes?</h3>
+        <p class="text-sm text-white/70">
+          I can, but each athlete needs their own booking and edit. One price does not cover the whole team or roster.
         </p>
       </div>
 
       <div class="rounded-2xl border border-white/10 bg-white/5 p-6 ring-soft">
-        <h3 class="font-semibold">What if I want changes?</h3>
-        <p class="mt-2 text-sm text-white/70">
-          Small changes are fine. Full re-edits or major style swaps count as a re-edit add-on.
+        <h3 class="font-display text-xl mb-3">What if I want changes?</h3>
+        <p class="text-sm text-white/70">
+          Small tweaks are fine. Full re-edits or major style changes count as a re-edit add-on.
+        </p>
+      </div>
+
+      <div class="rounded-2xl border border-white/10 bg-white/5 p-6 ring-soft">
+        <h3 class="font-display text-xl mb-3">What if the athlete doesn't play much?</h3>
+        <p class="text-sm text-white/70">
+          The highlight reel uses whatever usable footage is available. Limited playing time doesn't void the booking or payment.
+        </p>
+      </div>
+
+      <div class="rounded-2xl border border-white/10 bg-white/5 p-6 ring-soft">
+        <h3 class="font-display text-xl mb-3">How do I pay?</h3>
+        <p class="text-sm text-white/70">
+          50% due on shoot day, 50% before delivery. Delivery begins after full payment.
         </p>
       </div>
     </div>
 
-    <div class="mt-6 flex flex-col sm:flex-row gap-3">
+    <div class="flex flex-col sm:flex-row gap-4 justify-center">
       <a
         href="https://ig.me/m/caleb.filmguy"
         target="_blank"
-        class="inline-flex items-center justify-center rounded-xl bg-blaze text-ink px-5 py-3 font-semibold hover:bg-blaze2 shadow-glow ring-soft"
+        class="inline-flex items-center justify-center rounded-xl bg-blaze text-ink px-8 py-4 font-bold text-lg hover:bg-blaze2 shadow-glow ring-soft transition-all hover:scale-105"
       >
         DM "BOOK" →
       </a>
 
       <a
         href="#pricing"
-        class="inline-flex items-center justify-center rounded-xl border border-white/15 px-5 py-3 font-semibold text-white/90 hover:bg-white/5"
+        class="inline-flex items-center justify-center rounded-xl border-2 border-white/15 px-8 py-4 font-bold text-lg text-white/90 hover:bg-white/5 transition-all"
       >
         Read pricing again →
       </a>
@@ -456,24 +730,24 @@
   </section>
 
   <!-- Footer -->
-  <footer class="border-t border-white/10">
-    <div class="max-w-6xl mx-auto px-5 py-10 flex flex-col md:flex-row md:items-center md:justify-between gap-4">
+  <footer class="border-t border-white/10 mt-16">
+    <div class="max-w-7xl mx-auto px-5 py-12 flex flex-col md:flex-row md:items-center md:justify-between gap-6">
       <div class="flex items-center gap-3">
-        <span class="inline-flex h-10 w-10 items-center justify-center rounded-xl bg-blaze text-ink font-black ring-soft">
+        <span class="inline-flex h-12 w-12 items-center justify-center rounded-xl bg-blaze text-ink font-black text-lg ring-soft">
           CM
         </span>
         <div class="leading-tight">
-          <p class="text-sm text-white/80">© <span id="y"></span> Caleb Media</p>
-          <p class="text-xs text-white/60">Basketball highlight videos</p>
+          <p class="text-sm text-white/90 font-bold">© <span id="y"></span> Caleb Media</p>
+          <p class="text-xs text-white/60">Sports highlights & photography</p>
         </div>
       </div>
 
-      <div class="text-sm text-white/70 flex flex-wrap gap-4">
-        <!-- <a class="hover:text-white" href="#work">Work</a> -->
-        <a class="hover:text-white" href="#pricing">Pricing</a>
-        <a class="hover:text-white" href="#process">Process</a>
-        <a class="hover:text-white" href="#faq">FAQ</a>
-        <a class="hover:text-white" href="https://instagram.com/caleb.filmguy" target="_blank">Instagram</a>
+      <div class="text-sm text-white/70 flex flex-wrap gap-6 font-medium">
+        <a class="hover:text-white transition-colors" href="#pricing">Pricing</a>
+        <a class="hover:text-white transition-colors" href="#rules">Rules</a>
+        <a class="hover:text-white transition-colors" href="#process">Process</a>
+        <a class="hover:text-white transition-colors" href="#faq">FAQ</a>
+        <a class="hover:text-white transition-colors" href="https://instagram.com/caleb.filmguy" target="_blank">Instagram</a>
       </div>
     </div>
   </footer>
