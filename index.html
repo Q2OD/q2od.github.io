@@ -1,48 +1,188 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Basketball Mixtapes</title>
-  <link rel="stylesheet" href="style.css">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Basketball Mixtapes | Caleb</title>
+  <meta name="description" content="Basketball highlight videos for athletes. First mixtape free. Fast turnaround. DM to book." />
+
+  <!-- Favicon (SVG) -->
+  <link rel="icon" href="assets/favicon.svg" type="image/svg+xml" />
+
+  <!-- Social preview (optional but nice) -->
+  <meta property="og:title" content="Basketball Mixtapes" />
+  <meta property="og:description" content="High school creator. First mixtape free. DM to book." />
+  <meta property="og:type" content="website" />
+
+  <!-- Tailwind (CDN) -->
+  <script src="https://cdn.tailwindcss.com"></script>
+
+  <!-- Tailwind config (custom colors) -->
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            ink: "#0b0b0f",
+            paper: "#ffffff",
+            blaze: "#ff6a00",
+            blaze2: "#ff8a2a"
+          },
+          boxShadow: {
+            glow: "0 0 0 1px rgba(255,106,0,.25), 0 12px 40px rgba(0,0,0,.55)"
+          }
+        }
+      }
+    }
+  </script>
+
+  <style>
+    /* Small extras Tailwind doesn’t cover perfectly */
+    .noise {
+      background-image:
+        radial-gradient(circle at 15% 20%, rgba(255,106,0,.16), transparent 40%),
+        radial-gradient(circle at 85% 30%, rgba(255,138,42,.12), transparent 45%),
+        radial-gradient(circle at 50% 90%, rgba(255,255,255,.06), transparent 45%);
+    }
+  </style>
 </head>
-<body>
 
-  <main class="container">
-    <h1>Basketball Highlight Videos</h1>
-    <p class="sub">
-      High school creator. Game footage turned into clean mixtapes.
-    </p>
+<body class="bg-ink text-paper noise min-h-screen">
+  <!-- Top bar -->
+  <header class="sticky top-0 z-40 backdrop-blur bg-ink/60 border-b border-white/10">
+    <div class="max-w-6xl mx-auto px-5 py-4 flex items-center justify-between">
+      <a href="#" class="flex items-center gap-3">
+        <span class="inline-flex h-9 w-9 items-center justify-center rounded-xl bg-blaze text-ink font-black shadow-glow">V</span>
+        <span class="font-semibold tracking-tight">Veltrix Hoops Media</span>
+      </a>
 
-    <section>
-      <h2>How it works</h2>
-      <ol>
-        <li>DM me on Instagram</li>
-        <li>I film your game</li>
-        <li>You get a finished mixtape</li>
-      </ol>
-    </section>
+      <nav class="hidden md:flex items-center gap-6 text-sm text-white/80">
+        <a class="hover:text-white" href="#work">Work</a>
+        <a class="hover:text-white" href="#pricing">Pricing</a>
+        <a class="hover:text-white" href="#faq">FAQ</a>
+        <a class="hover:text-white" href="#book">Book</a>
+      </nav>
 
-    <section>
-      <h2>Pricing</h2>
-      <ul>
-        <li>First mixtape: Free</li>
-        <li>Single game mixtape: $25</li>
-        <li>Two game bundle: $40</li>
-        <li>Season highlights: $60</li>
-      </ul>
-    </section>
+      <a
+        href="https://instagram.com/yourhandle"
+        target="_blank"
+        class="inline-flex items-center gap-2 rounded-xl bg-white text-ink px-4 py-2 text-sm font-semibold hover:bg-white/90"
+      >
+        DM on Instagram
+        <span class="text-blaze font-black">→</span>
+      </a>
+    </div>
+  </header>
 
-    <section>
-      <h2>Book</h2>
-      <p>
-        Instagram:
-        <a href="https://instagram.com/yourhandle" target="_blank">
-          @yourhandle
-        </a>
-      </p>
-    </section>
-  </main>
+  <!-- Hero -->
+  <section class="max-w-6xl mx-auto px-5 pt-14 pb-10">
+    <div class="grid md:grid-cols-12 gap-8 items-center">
+      <div class="md:col-span-7">
+        <p class="inline-flex items-center gap-2 text-xs font-semibold uppercase tracking-wider text-white/70">
+          <span class="h-2 w-2 rounded-full bg-blaze"></span>
+          Basketball highlight videos
+        </p>
 
-</body>
-</html>
+        <h1 class="mt-4 text-4xl md:text-5xl font-extrabold tracking-tight leading-[1.05]">
+          Clean mixtapes that make players look
+          <span class="text-blaze">fast</span>,
+          <span class="text-blaze2">confident</span>, and
+          <span class="text-white">recruitable</span>.
+        </h1>
+
+        <p class="mt-5 text-white/75 text-lg leading-relaxed">
+          I film games and cut tight highlights built for Instagram and coaches.
+          First-time clients get one mixtape free. After that, it’s simple pricing and fast delivery.
+        </p>
+
+        <div class="mt-7 flex flex-col sm:flex-row gap-3">
+          <a
+            href="#pricing"
+            class="rounded-xl bg-blaze text-ink px-5 py-3 font-semibold hover:bg-blaze2 shadow-glow"
+          >
+            See pricing
+          </a>
+          <a
+            href="#work"
+            class="rounded-xl border border-white/15 px-5 py-3 font-semibold text-white/90 hover:bg-white/5"
+          >
+            Watch examples
+          </a>
+        </div>
+
+        <div class="mt-8 flex flex-wrap gap-3 text-sm text-white/70">
+          <span class="rounded-full border border-white/10 px-3 py-1">Vertical reels</span>
+          <span class="rounded-full border border-white/10 px-3 py-1">Game coverage</span>
+          <span class="rounded-full border border-white/10 px-3 py-1">Quick turnaround</span>
+          <span class="rounded-full border border-white/10 px-3 py-1">High school friendly</span>
+        </div>
+      </div>
+
+      <div class="md:col-span-5">
+        <div class="rounded-2xl border border-white/10 bg-white/5 p-5 shadow-glow">
+          <div class="flex items-center justify-between">
+            <h2 class="font-semibold">Fast booking</h2>
+            <span class="text-xs text-white/60">DM only</span>
+          </div>
+
+          <div class="mt-4 space-y-3 text-sm text-white/80">
+            <div class="flex items-start gap-3">
+              <span class="mt-1 inline-block h-2 w-2 rounded-full bg-blaze"></span>
+              <p><span class="font-semibold text-white">Send:</span> your name, team, position, and game time.</p>
+            </div>
+            <div class="flex items-start gap-3">
+              <span class="mt-1 inline-block h-2 w-2 rounded-full bg-blaze2"></span>
+              <p><span class="font-semibold text-white">Pick:</span> 60–90 sec mixtape or 2–3 min season edit.</p>
+            </div>
+            <div class="flex items-start gap-3">
+              <span class="mt-1 inline-block h-2 w-2 rounded-full bg-white"></span>
+              <p><span class="font-semibold text-white">Delivery:</span> optimized for IG Reels + a clean download.</p>
+            </div>
+          </div>
+
+          <a
+            id="book"
+            href="https://instagram.com/yourhandle"
+            target="_blank"
+            class="mt-6 inline-flex w-full items-center justify-center gap-2 rounded-xl bg-white text-ink px-4 py-3 font-semibold hover:bg-white/90"
+          >
+            Book via Instagram DM
+            <span class="text-blaze font-black">→</span>
+          </a>
+
+          <p class="mt-3 text-xs text-white/60">
+            You don’t need a “consultation.” Just DM the details. I’ll handle the rest.
+          </p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Work / examples -->
+  <section id="work" class="max-w-6xl mx-auto px-5 py-12">
+    <div class="flex items-end justify-between gap-6">
+      <div>
+        <h2 class="text-2xl font-bold tracking-tight">Work</h2>
+        <p class="mt-2 text-white/70">Drop your best 3–5 examples here. Keep it short.</p>
+      </div>
+      <a class="text-sm text-white/70 hover:text-white" href="https://instagram.com/yourhandle" target="_blank">
+        More on Instagram →
+      </a>
+    </div>
+
+    <div class="mt-6 grid md:grid-cols-3 gap-4">
+      <!-- Replace these with links to YouTube/Drive/IG posts -->
+      <a href="#" class="group rounded-2xl border border-white/10 bg-white/5 p-5 hover:bg-white/10 transition">
+        <p class="text-sm text-white/60">Mixtape Example</p>
+        <h3 class="mt-1 font-semibold group-hover:text-white">Player Name | 2026</h3>
+        <p class="mt-2 text-sm text-white/70">60–90 sec, vertical, clean cuts</p>
+      </a>
+
+      <a href="#" class="group rounded-2xl border border-white/10 bg-white/5 p-5 hover:bg-white/10 transition">
+        <p class="text-sm text-white/60">Mixtape Example</p>
+        <h3 class="mt-1 font-semibold group-hover:text-white">Player Name | 2026</h3>
+        <p class="mt-2 text-sm text-white/70">Shot selection focused on impact</p>
+      </a>
+
+      <a href="#" class="group rounded-2xl border border-white/10 bg-white/5 p-5 hover:bg-white/10 transition">
+        <p class="text-sm text-white/60">Season Edit</p
