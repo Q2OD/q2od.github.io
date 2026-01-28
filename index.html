@@ -3,21 +3,21 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>Basketball Mixtapes | Caleb</title>
-  <meta name="description" content="Basketball highlight videos for athletes. First mixtape free. Fast turnaround. DM to book." />
+  <title>Caleb Media | Basketball Mixtapes</title>
+  <meta name="description" content="Basketball highlight videos for athletes. First mixtape free. DM 'BOOK' to start." />
 
   <!-- Favicon (SVG) -->
   <link rel="icon" href="assets/favicon.svg" type="image/svg+xml" />
 
-  <!-- Social preview (optional but nice) -->
-  <meta property="og:title" content="Basketball Mixtapes" />
-  <meta property="og:description" content="High school creator. First mixtape free. DM to book." />
+  <!-- Social preview -->
+  <meta property="og:title" content="Caleb Media | Basketball Mixtapes" />
+  <meta property="og:description" content="First mixtape free. DM 'BOOK' on Instagram to start." />
   <meta property="og:type" content="website" />
 
   <!-- Tailwind (CDN) -->
   <script src="https://cdn.tailwindcss.com"></script>
 
-  <!-- Tailwind config (custom colors) -->
+  <!-- Tailwind config -->
   <script>
     tailwind.config = {
       theme: {
@@ -29,7 +29,7 @@
             blaze2: "#ff8a2a"
           },
           boxShadow: {
-            glow: "0 0 0 1px rgba(255,106,0,.25), 0 12px 40px rgba(0,0,0,.55)"
+            glow: "0 0 0 1px rgba(255,106,0,.26), 0 18px 55px rgba(0,0,0,.62)"
           }
         }
       }
@@ -37,269 +37,439 @@
   </script>
 
   <style>
-    /* Small extras Tailwind doesn’t cover perfectly */
-    .noise {
+    .bg-flavor {
       background-image:
-        radial-gradient(circle at 15% 20%, rgba(255,106,0,.16), transparent 40%),
-        radial-gradient(circle at 85% 30%, rgba(255,138,42,.12), transparent 45%),
-        radial-gradient(circle at 50% 90%, rgba(255,255,255,.06), transparent 45%);
+        radial-gradient(circle at 18% 22%, rgba(255,106,0,.16), transparent 42%),
+        radial-gradient(circle at 82% 28%, rgba(255,138,42,.12), transparent 45%),
+        radial-gradient(circle at 50% 92%, rgba(255,255,255,.06), transparent 45%),
+        linear-gradient(to bottom, rgba(255,255,255,.04), transparent 22%);
     }
+    .ring-soft { box-shadow: 0 0 0 1px rgba(255,255,255,.10) inset; }
   </style>
 </head>
 
-<body class="bg-ink text-paper noise min-h-screen">
+<body class="bg-ink text-paper bg-flavor min-h-screen">
   <!-- Top bar -->
-  <header class="sticky top-0 z-40 backdrop-blur bg-ink/60 border-b border-white/10">
+  <header class="sticky top-0 z-40 backdrop-blur bg-ink/65 border-b border-white/10">
     <div class="max-w-6xl mx-auto px-5 py-4 flex items-center justify-between">
-      <a href="#" class="flex items-center gap-3">
-        <span class="inline-flex h-9 w-9 items-center justify-center rounded-xl bg-blaze text-ink font-black shadow-glow">C M</span>
-        <span class="font-semibold tracking-tight">Caleb Media</span>
+      <a href="#top" class="flex items-center gap-3">
+        <span class="inline-flex h-10 w-10 items-center justify-center rounded-xl bg-blaze text-ink font-black shadow-glow ring-soft">
+          CM
+        </span>
+        <div class="leading-tight">
+          <div class="font-semibold tracking-tight">Caleb Media</div>
+          <div class="text-xs text-white/60">Basketball mixtapes</div>
+        </div>
       </a>
 
       <nav class="hidden md:flex items-center gap-6 text-sm text-white/80">
-        <!-- <a class="hover:text-white" href="#work">Work</a> -->
+        <a class="hover:text-white" href="#work">Work</a>
         <a class="hover:text-white" href="#pricing">Pricing</a>
+        <a class="hover:text-white" href="#process">Process</a>
         <a class="hover:text-white" href="#faq">FAQ</a>
-        <a class="hover:text-white" href="#book">Book</a>
       </nav>
 
-      <a
-        href="https://instagram.com/caleb.filmguy"
-        target="_blank"
-        class="inline-flex items-center gap-2 rounded-xl bg-white text-ink px-4 py-2 text-sm font-semibold hover:bg-white/90"
-      >
-        DM on Instagram
-        <span class="text-blaze font-black">→</span>
-      </a>
+      <div class="flex items-center gap-2">
+        <a
+          href="https://ig.me/m/caleb.filmguy"
+          target="_blank"
+          class="hidden sm:inline-flex items-center gap-2 rounded-xl bg-white text-ink px-4 py-2 text-sm font-semibold hover:bg-white/90"
+        >
+          DM "BOOK"
+          <span class="text-blaze font-black">→</span>
+        </a>
+
+        <a
+          href="https://instagram.com/caleb.filmguy"
+          target="_blank"
+          class="inline-flex items-center gap-2 rounded-xl border border-white/15 px-4 py-2 text-sm font-semibold text-white/90 hover:bg-white/5"
+        >
+          Profile
+        </a>
+      </div>
     </div>
   </header>
 
   <!-- Hero -->
-  <section class="max-w-6xl mx-auto px-5 pt-14 pb-10">
-    <div class="grid md:grid-cols-12 gap-8 items-center">
+  <main id="top" class="max-w-6xl mx-auto px-5 pt-14 pb-10">
+    <div class="grid md:grid-cols-12 gap-10 items-center">
       <div class="md:col-span-7">
         <p class="inline-flex items-center gap-2 text-xs font-semibold uppercase tracking-wider text-white/70">
           <span class="h-2 w-2 rounded-full bg-blaze"></span>
-          Basketball highlight videos
+          Game filming + clean edits for Reels
         </p>
 
         <h1 class="mt-4 text-4xl md:text-5xl font-extrabold tracking-tight leading-[1.05]">
-          Clean mixtapes that make players look
-          <span class="text-blaze">fast</span>,
+          Mixtapes that make players look
+          <span class="text-blaze">quick</span>,
           <span class="text-blaze2">confident</span>, and
-          <span class="text-white">recruitable</span>.
+          <span class="text-white">worth watching</span>.
         </h1>
 
         <p class="mt-5 text-white/75 text-lg leading-relaxed">
-          I film games and cut tight highlights built for Instagram and coaches.
-          First-time clients get one mixtape free. After that, it’s simple pricing and fast delivery.
+          I show up, film smart, and cut a tight highlight reel built for Instagram.
+          If you want the easiest booking experience, DM me the word <span class="text-white font-semibold">BOOK</span> and my questions will guide you.
         </p>
 
         <div class="mt-7 flex flex-col sm:flex-row gap-3">
           <a
-            href="#pricing"
-            class="rounded-xl bg-blaze text-ink px-5 py-3 font-semibold hover:bg-blaze2 shadow-glow"
+            href="https://ig.me/m/caleb.filmguy"
+            target="_blank"
+            class="rounded-xl bg-blaze text-ink px-5 py-3 font-semibold hover:bg-blaze2 shadow-glow ring-soft"
           >
-            See pricing
+            Open DM (type BOOK) →
           </a>
-          <!-- <a
-            href="#work"
+          <a
+            href="#pricing"
             class="rounded-xl border border-white/15 px-5 py-3 font-semibold text-white/90 hover:bg-white/5"
           >
-            Watch examples -->
+            View pricing
           </a>
         </div>
 
         <div class="mt-8 flex flex-wrap gap-3 text-sm text-white/70">
-          <span class="rounded-full border border-white/10 px-3 py-1">Vertical reels</span>
-          <span class="rounded-full border border-white/10 px-3 py-1">Game coverage</span>
-          <span class="rounded-full border border-white/10 px-3 py-1">Quick turnaround</span>
+          <span class="rounded-full border border-white/10 px-3 py-1">Vertical first</span>
+          <span class="rounded-full border border-white/10 px-3 py-1">Fast pacing</span>
           <span class="rounded-full border border-white/10 px-3 py-1">High school friendly</span>
+          <span class="rounded-full border border-white/10 px-3 py-1">Simple booking</span>
         </div>
       </div>
 
+      <!-- Booking card -->
       <div class="md:col-span-5">
-        <div class="rounded-2xl border border-white/10 bg-white/5 p-5 shadow-glow">
-          <div class="flex items-center justify-between">
-            <h2 class="font-semibold">Fast booking</h2>
-            <span class="text-xs text-white/60">DM only</span>
+        <div class="rounded-2xl border border-white/10 bg-white/5 p-6 shadow-glow ring-soft">
+          <div class="flex items-start justify-between gap-4">
+            <div>
+              <h2 class="font-semibold text-lg">Booking instructions</h2>
+              <p class="mt-1 text-sm text-white/65">
+                DM me <span class="text-white font-semibold">BOOK</span>. You’ll get a quick set of questions so I have everything I need.
+              </p>
+            </div>
+            <span class="text-xs text-white/60 rounded-full border border-white/10 px-2 py-1">Instagram-first</span>
           </div>
 
-          <div class="mt-4 space-y-3 text-sm text-white/80">
+          <div class="mt-5 space-y-3 text-sm text-white/80">
             <div class="flex items-start gap-3">
               <span class="mt-1 inline-block h-2 w-2 rounded-full bg-blaze"></span>
-              <p><span class="font-semibold text-white">Send:</span> your name, team, position, and game time.</p>
+              <p><span class="font-semibold text-white">Send:</span> name, team, jersey #, position</p>
             </div>
             <div class="flex items-start gap-3">
               <span class="mt-1 inline-block h-2 w-2 rounded-full bg-blaze2"></span>
-              <p><span class="font-semibold text-white">Pick:</span> 60–90 sec mixtape or 2–3 min season edit.</p>
+              <p><span class="font-semibold text-white">Game:</span> date/time + gym location</p>
             </div>
             <div class="flex items-start gap-3">
               <span class="mt-1 inline-block h-2 w-2 rounded-full bg-white"></span>
-              <p><span class="font-semibold text-white">Delivery:</span> optimized for IG Reels + a clean download.</p>
+              <p><span class="font-semibold text-white">Style:</span> hype, clean, or story (tell me your vibe)</p>
             </div>
           </div>
 
-          <a
-            id="book"
-            href="https://instagram.com/caleb.filmguy"
-            target="_blank"
-            class="mt-6 inline-flex w-full items-center justify-center gap-2 rounded-xl bg-white text-ink px-4 py-3 font-semibold hover:bg-white/90"
-          >
-            Book via Instagram DM
-            <span class="text-blaze font-black">→</span>
-          </a>
+          <div class="mt-6 grid grid-cols-1 sm:grid-cols-2 gap-3">
+            <a
+              href="https://ig.me/m/caleb.filmguy"
+              target="_blank"
+              class="inline-flex w-full items-center justify-center gap-2 rounded-xl bg-white text-ink px-4 py-3 font-semibold hover:bg-white/90"
+            >
+              DM "BOOK"
+              <span class="text-blaze font-black">→</span>
+            </a>
+
+            <a
+              href="#process"
+              class="inline-flex w-full items-center justify-center gap-2 rounded-xl border border-white/15 px-4 py-3 font-semibold text-white/90 hover:bg-white/5"
+            >
+              How it works
+              <span class="text-blaze font-black">→</span>
+            </a>
+          </div>
 
           <p class="mt-3 text-xs text-white/60">
-            You don’t need a “consultation.” Just DM the details. I’ll handle the rest.
+            If you do not want the automation, just DM normally. BOOK is just faster.
           </p>
         </div>
       </div>
     </div>
-  </section>
+  </main>
 
-  <!-- Work / examples
+  <!-- Work -->
   <section id="work" class="max-w-6xl mx-auto px-5 py-12">
     <div class="flex items-end justify-between gap-6">
       <div>
         <h2 class="text-2xl font-bold tracking-tight">Work</h2>
-        <p class="mt-2 text-white/70">Drop your best 3–5 examples here. Keep it short.</p>
+        <p class="mt-2 text-white/70">
+          Put your best 3 here. Quality over quantity. Link to IG posts, YouTube, or Drive.
+        </p>
       </div>
       <a class="text-sm text-white/70 hover:text-white" href="https://instagram.com/caleb.filmguy" target="_blank">
-        More on Instagram →
+        See more on IG →
       </a>
     </div>
 
     <div class="mt-6 grid md:grid-cols-3 gap-4">
-      Replace these with links to YouTube/Drive/IG posts
-      <a href="#" class="group rounded-2xl border border-white/10 bg-white/5 p-5 hover:bg-white/10 transition">
-        <p class="text-sm text-white/60">Mixtape Example</p>
-        <h3 class="mt-1 font-semibold group-hover:text-white">Player Name | 2026</h3>
+      <a href="#" class="group rounded-2xl border border-white/10 bg-white/5 p-6 hover:bg-white/10 transition ring-soft">
+        <p class="text-xs text-white/60 uppercase tracking-wider">Mixtape</p>
+        <h3 class="mt-2 font-semibold text-lg group-hover:text-white">Player Name | 2026</h3>
         <p class="mt-2 text-sm text-white/70">60–90 sec, vertical, clean cuts</p>
+        <p class="mt-4 text-sm text-blaze font-semibold">Watch →</p>
       </a>
 
-      <a href="#" class="group rounded-2xl border border-white/10 bg-white/5 p-5 hover:bg-white/10 transition">
-        <p class="text-sm text-white/60">Mixtape Example</p>
-        <h3 class="mt-1 font-semibold group-hover:text-white">Player Name | 2026</h3>
-        <p class="mt-2 text-sm text-white/70">Shot selection focused on impact</p>
+      <a href="#" class="group rounded-2xl border border-white/10 bg-white/5 p-6 hover:bg-white/10 transition ring-soft">
+        <p class="text-xs text-white/60 uppercase tracking-wider">Mixtape</p>
+        <h3 class="mt-2 font-semibold text-lg group-hover:text-white">Player Name | 2026</h3>
+        <p class="mt-2 text-sm text-white/70">Impact plays only, no filler</p>
+        <p class="mt-4 text-sm text-blaze font-semibold">Watch →</p>
       </a>
 
-      <a href="#" class="group rounded-2xl border border-white/10 bg-white/5 p-5 hover:bg-white/10 transition">
-        <p class="text-sm text-white/60">Season Edit</p>
-        <h3 class="mt-1 font-semibold group-hover:text-white">Player Name | Season</h3>
-        <p class="mt-2 text-sm text-white/70">2–3 min, more story, more moments</p>
+      <a href="#" class="group rounded-2xl border border-white/10 bg-white/5 p-6 hover:bg-white/10 transition ring-soft">
+        <p class="text-xs text-white/60 uppercase tracking-wider">Season edit</p>
+        <h3 class="mt-2 font-semibold text-lg group-hover:text-white">Player Name | Season</h3>
+        <p class="mt-2 text-sm text-white/70">2–3 min, more moments, more story</p>
+        <p class="mt-4 text-sm text-blaze font-semibold">Watch →</p>
       </a>
     </div>
-  </section> -->
+  </section>
 
   <!-- Pricing -->
   <section id="pricing" class="max-w-6xl mx-auto px-5 py-12">
-    <div class="rounded-3xl border border-white/10 bg-gradient-to-b from-white/10 to-white/5 p-7 md:p-10 shadow-glow">
-      <h2 class="text-2xl font-bold tracking-tight">Pricing</h2>
-      <p class="mt-2 text-white/70">Keep it simple, so nobody can “misunderstand” you.</p>
+    <div class="rounded-3xl border border-white/10 bg-gradient-to-b from-white/10 to-white/5 p-7 md:p-10 shadow-glow ring-soft">
+      <div class="flex flex-col md:flex-row md:items-end md:justify-between gap-6">
+        <div>
+          <h2 class="text-2xl font-bold tracking-tight">Pricing</h2>
+          <p class="mt-2 text-white/70 max-w-2xl">
+            Pricing is based on filming time + editing. Every mixtape is paced to music and built for Instagram.
+            If you want a specific vibe, tell me before the game so I cut it right the first time.
+          </p>
+        </div>
+
+        <a
+          href="https://ig.me/m/caleb.filmguy"
+          target="_blank"
+          class="inline-flex items-center justify-center rounded-xl bg-blaze text-ink px-5 py-3 font-semibold hover:bg-blaze2 ring-soft"
+        >
+          DM "BOOK" to start →
+        </a>
+      </div>
 
       <div class="mt-7 grid md:grid-cols-3 gap-4">
-        <div class="rounded-2xl border border-white/10 bg-ink/40 p-6">
-          <p class="text-sm text-white/60">First-time</p>
+        <div class="rounded-2xl border border-white/10 bg-ink/40 p-6 ring-soft">
+          <p class="text-sm text-white/60">First-time clients</p>
           <h3 class="mt-1 text-xl font-bold">Free Mixtape</h3>
-          <p class="mt-2 text-white/70 text-sm">One game shoot + 60–90 sec edit</p>
+          <p class="mt-2 text-white/70 text-sm">One game shoot + 60–90 sec vertical edit</p>
           <ul class="mt-4 space-y-2 text-sm text-white/75">
             <li>• Best plays only</li>
-            <li>• Vertical reel</li>
+            <li>• Clean pacing</li>
             <li>• One delivery</li>
           </ul>
         </div>
 
-        <div class="rounded-2xl border border-blaze/40 bg-ink/40 p-6 shadow-glow">
+        <div class="rounded-2xl border border-blaze/40 bg-ink/40 p-6 shadow-glow ring-soft">
           <p class="text-sm text-white/60">Standard</p>
           <h3 class="mt-1 text-xl font-bold">$25 Mixtape</h3>
-          <p class="mt-2 text-white/70 text-sm">One game shoot + edit</p>
+          <p class="mt-2 text-white/70 text-sm">One game shoot + 60–90 sec vertical edit</p>
           <ul class="mt-4 space-y-2 text-sm text-white/75">
-            <li>• 60–90 seconds</li>
-            <li>• Clean pacing</li>
-            <li>• IG-ready export</li>
+            <li>• Focus on you (not the whole team)</li>
+            <li>• Best moments, no filler</li>
+            <li>• Reel-ready export</li>
           </ul>
         </div>
 
-        <div class="rounded-2xl border border-white/10 bg-ink/40 p-6">
+        <div class="rounded-2xl border border-white/10 bg-ink/40 p-6 ring-soft">
           <p class="text-sm text-white/60">Best value</p>
           <h3 class="mt-1 text-xl font-bold">$40 Bundle</h3>
-          <p class="mt-2 text-white/70 text-sm">Two games, one stronger edit</p>
+          <p class="mt-2 text-white/70 text-sm">Two games filmed, one stronger edit</p>
           <ul class="mt-4 space-y-2 text-sm text-white/75">
-            <li>• Better highlight selection</li>
-            <li>• More moments to choose from</li>
-            <li>• Consistent look</li>
+            <li>• More clips to choose from</li>
+            <li>• Better final pacing</li>
+            <li>• More consistent look</li>
           </ul>
         </div>
       </div>
 
-      <div class="mt-6 flex flex-col md:flex-row md:items-center md:justify-between gap-4">
-        <p class="text-sm text-white/60">
-          Add-ons: Rush delivery (+$10), extra vertical cut (+$10), re-edit later (+$15).
+      <!-- More explanation -->
+      <div class="mt-8 grid md:grid-cols-3 gap-4">
+        <div class="rounded-2xl border border-white/10 bg-ink/30 p-6 ring-soft">
+          <h3 class="font-semibold">Included</h3>
+          <ul class="mt-3 space-y-2 text-sm text-white/75">
+            <li>• Filming your game (focus on you)</li>
+            <li>• Music timing + tight cuts</li>
+            <li>• Color/clarity polish</li>
+            <li>• Vertical export for Reels</li>
+          </ul>
+        </div>
+
+        <div class="rounded-2xl border border-white/10 bg-ink/30 p-6 ring-soft">
+          <h3 class="font-semibold">Not included</h3>
+          <ul class="mt-3 space-y-2 text-sm text-white/75">
+            <li>• Full uncut game footage</li>
+            <li>• Unlimited changes</li>
+            <li>• Filming every teammate equally</li>
+            <li>• Posting it for you</li>
+          </ul>
+        </div>
+
+        <div class="rounded-2xl border border-white/10 bg-ink/30 p-6 ring-soft">
+          <h3 class="font-semibold">Payment + travel</h3>
+          <ul class="mt-3 space-y-2 text-sm text-white/75">
+            <li>• Payment due after filming, before delivery</li>
+            <li>• Rush delivery: +$10</li>
+            <li>• Extra vertical cut: +$10</li>
+            <li>
+              • Travel: free within 5 miles of Oviedo.
+              +$5 outside that zone (most places are $5–$10).
+            </li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="mt-8 rounded-2xl border border-white/10 bg-white/5 p-6 ring-soft">
+        <h3 class="font-semibold">Fastest way to book</h3>
+        <p class="mt-2 text-sm text-white/70">
+          DM me the word <span class="text-white font-semibold">BOOK</span>. You’ll get questions like: name, team, jersey #, game time, location, and what package you want.
+          That’s how I keep it quick and organized.
         </p>
-        <a
-          href="https://instagram.com/caleb.filmguy"
-          target="_blank"
-          class="inline-flex items-center justify-center rounded-xl bg-blaze text-ink px-5 py-3 font-semibold hover:bg-blaze2"
-        >
-          Book now →
-        </a>
+
+        <div class="mt-4 flex flex-col sm:flex-row gap-3">
+          <a
+            href="https://ig.me/m/caleb.filmguy"
+            target="_blank"
+            class="inline-flex items-center justify-center rounded-xl bg-white text-ink px-5 py-3 font-semibold hover:bg-white/90 ring-soft"
+          >
+            DM "BOOK" →
+          </a>
+          <a
+            href="https://instagram.com/caleb.filmguy"
+            target="_blank"
+            class="inline-flex items-center justify-center rounded-xl border border-white/15 px-5 py-3 font-semibold text-white/90 hover:bg-white/5"
+          >
+            Open Instagram →
+          </a>
+        </div>
       </div>
     </div>
   </section>
 
-  <!-- Testimonials (optional but powerful)
-  <section class="max-w-6xl mx-auto px-5 py-12">
-    <h2 class="text-2xl font-bold tracking-tight">What players say</h2>
-    <p class="mt-2 text-white/70">If you don’t have these yet, leave the section but keep it short.</p>
+  <!-- Process -->
+  <section id="process" class="max-w-6xl mx-auto px-5 py-12">
+    <h2 class="text-2xl font-bold tracking-tight">How it works</h2>
+    <p class="mt-2 text-white/70 max-w-3xl">
+      This is the part that makes you look professional. Clear process, no confusion, no endless messages.
+    </p>
 
-    <div class="mt-6 grid md:grid-cols-3 gap-4">
-      <div class="rounded-2xl border border-white/10 bg-white/5 p-6">
-        <p class="text-white/80 text-sm">“The edit was clean and the pacing was crazy. Posted it same night.”</p>
-        <p class="mt-3 text-xs text-white/60">Player Name, School</p>
+    <div class="mt-6 grid md:grid-cols-4 gap-4">
+      <div class="rounded-2xl border border-white/10 bg-white/5 p-6 ring-soft">
+        <p class="text-xs text-white/60 uppercase tracking-wider">Step 1</p>
+        <h3 class="mt-2 font-semibold">DM "BOOK"</h3>
+        <p class="mt-2 text-sm text-white/70">ManyChat asks the questions so I get details fast.</p>
       </div>
-      <div class="rounded-2xl border border-white/10 bg-white/5 p-6">
-        <p class="text-white/80 text-sm">“Actually made me look fast. Got hella comments on the reel.”</p>
-        <p class="mt-3 text-xs text-white/60">Player Name, School</p>
+
+      <div class="rounded-2xl border border-white/10 bg-white/5 p-6 ring-soft">
+        <p class="text-xs text-white/60 uppercase tracking-wider">Step 2</p>
+        <h3 class="mt-2 font-semibold">I film the game</h3>
+        <p class="mt-2 text-sm text-white/70">I focus on you and the moments that actually matter.</p>
       </div>
-      <div class="rounded-2xl border border-white/10 bg-white/5 p-6">
-        <p class="text-white/80 text-sm">“Easy to work with. Showed up, filmed, delivered.”</p>
-        <p class="mt-3 text-xs text-white/60">Player Name, School</p>
+
+      <div class="rounded-2xl border border-white/10 bg-white/5 p-6 ring-soft">
+        <p class="text-xs text-white/60 uppercase tracking-wider">Step 3</p>
+        <h3 class="mt-2 font-semibold">I edit the mixtape</h3>
+        <p class="mt-2 text-sm text-white/70">Tight pacing, clean cuts, reel-ready export.</p>
+      </div>
+
+      <div class="rounded-2xl border border-white/10 bg-white/5 p-6 ring-soft">
+        <p class="text-xs text-white/60 uppercase tracking-wider">Step 4</p>
+        <h3 class="mt-2 font-semibold">Delivery</h3>
+        <p class="mt-2 text-sm text-white/70">You get the final video ready to post.</p>
       </div>
     </div>
-  </section> -->
+
+    <div class="mt-6 rounded-2xl border border-white/10 bg-ink/30 p-6 ring-soft">
+      <h3 class="font-semibold">What I need from you (copy/paste into DM)</h3>
+      <div class="mt-3 grid md:grid-cols-2 gap-3 text-sm text-white/75">
+        <div class="rounded-xl border border-white/10 bg-white/5 p-4">
+          <p><span class="text-white font-semibold">Name:</span> ___</p>
+          <p><span class="text-white font-semibold">Team:</span> ___</p>
+          <p><span class="text-white font-semibold">Jersey #:</span> ___</p>
+          <p><span class="text-white font-semibold">Position:</span> ___</p>
+        </div>
+        <div class="rounded-xl border border-white/10 bg-white/5 p-4">
+          <p><span class="text-white font-semibold">Game date/time:</span> ___</p>
+          <p><span class="text-white font-semibold">Location:</span> ___</p>
+          <p><span class="text-white font-semibold">Package:</span> Free / $25 / $40</p>
+          <p><span class="text-white font-semibold">Song:</span> ___ (clean preferred)</p>
+        </div>
+      </div>
+    </div>
+  </section>
 
   <!-- FAQ -->
   <section id="faq" class="max-w-6xl mx-auto px-5 py-12">
     <h2 class="text-2xl font-bold tracking-tight">FAQ</h2>
+
     <div class="mt-6 grid md:grid-cols-2 gap-4">
-      <div class="rounded-2xl border border-white/10 bg-white/5 p-6">
+      <div class="rounded-2xl border border-white/10 bg-white/5 p-6 ring-soft">
         <h3 class="font-semibold">How long does it take?</h3>
-        <p class="mt-2 text-sm text-white/70">Usually 2–4 days depending on school + game schedule. Rush is available.</p>
+        <p class="mt-2 text-sm text-white/70">
+          Usually 2–4 days depending on school and game schedule. Rush is available.
+        </p>
       </div>
-      <div class="rounded-2xl border border-white/10 bg-white/5 p-6">
-        <h3 class="font-semibold">Do I pick the song?</h3>
-        <p class="mt-2 text-sm text-white/70">Yes, or I can pick something clean and athletic.</p>
+
+      <div class="rounded-2xl border border-white/10 bg-white/5 p-6 ring-soft">
+        <h3 class="font-semibold">Can I pick the song?</h3>
+        <p class="mt-2 text-sm text-white/70">
+          Yes. Keep it school-safe. If the audio is risky, I will ask you to pick a clean option.
+        </p>
       </div>
-      <div class="rounded-2xl border border-white/10 bg-white/5 p-6">
-        <h3 class="font-semibold">What do you need from me?</h3>
-        <p class="mt-2 text-sm text-white/70">Name, team, jersey #, game time/location, and what style you want.</p>
+
+      <div class="rounded-2xl border border-white/10 bg-white/5 p-6 ring-soft">
+        <h3 class="font-semibold">Do you film multiple players?</h3>
+        <p class="mt-2 text-sm text-white/70">
+          I can, but each player needs their own edit. One price does not cover the whole roster.
+        </p>
       </div>
-      <div class="rounded-2xl border border-white/10 bg-white/5 p-6">
-        <h3 class="font-semibold">Can you film multiple players?</h3>
-        <p class="mt-2 text-sm text-white/70">Yes, but it’s not one price split 5 ways. Each player needs their own edit.</p>
+
+      <div class="rounded-2xl border border-white/10 bg-white/5 p-6 ring-soft">
+        <h3 class="font-semibold">What if I want changes?</h3>
+        <p class="mt-2 text-sm text-white/70">
+          Small changes are fine. Full re-edits or major style swaps count as a re-edit add-on.
+        </p>
       </div>
+    </div>
+
+    <div class="mt-6 flex flex-col sm:flex-row gap-3">
+      <a
+        href="https://ig.me/m/caleb.filmguy"
+        target="_blank"
+        class="inline-flex items-center justify-center rounded-xl bg-blaze text-ink px-5 py-3 font-semibold hover:bg-blaze2 shadow-glow ring-soft"
+      >
+        DM "BOOK" →
+      </a>
+
+      <a
+        href="#pricing"
+        class="inline-flex items-center justify-center rounded-xl border border-white/15 px-5 py-3 font-semibold text-white/90 hover:bg-white/5"
+      >
+        Read pricing again →
+      </a>
     </div>
   </section>
 
   <!-- Footer -->
   <footer class="border-t border-white/10">
-    <div class="max-w-6xl mx-auto px-5 py-8 flex flex-col md:flex-row md:items-center md:justify-between gap-3">
-      <p class="text-sm text-white/60">© <span id="y"></span> Caleb Media</p>
-      <div class="text-sm text-white/70 flex gap-4">
-        <a class="hover:text-white" href="https://instagram.com/caleb.filmguy" target="_blank">Instagram</a>
+    <div class="max-w-6xl mx-auto px-5 py-10 flex flex-col md:flex-row md:items-center md:justify-between gap-4">
+      <div class="flex items-center gap-3">
+        <span class="inline-flex h-10 w-10 items-center justify-center rounded-xl bg-blaze text-ink font-black ring-soft">
+          CM
+        </span>
+        <div class="leading-tight">
+          <p class="text-sm text-white/80">© <span id="y"></span> Caleb Media</p>
+          <p class="text-xs text-white/60">Basketball highlight videos</p>
+        </div>
+      </div>
+
+      <div class="text-sm text-white/70 flex flex-wrap gap-4">
+        <a class="hover:text-white" href="#work">Work</a>
         <a class="hover:text-white" href="#pricing">Pricing</a>
-        <a class="hover:text-white" href="#book">Book</a>
+        <a class="hover:text-white" href="#process">Process</a>
+        <a class="hover:text-white" href="#faq">FAQ</a>
+        <a class="hover:text-white" href="https://instagram.com/caleb.filmguy" target="_blank">Instagram</a>
       </div>
     </div>
   </footer>
