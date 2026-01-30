@@ -3,7 +3,7 @@
  * Password verification, media loading, and display logic
  */
 
-const { supabase, verifyPassword, isGalleryExpired } = window.supabaseInit;
+const { supabase: supabaseClient, verifyPassword, isGalleryExpired } = window.supabaseInit;
 const lightbox = new Lightbox();
 
 let currentGallery = null;
@@ -46,7 +46,7 @@ passwordForm.addEventListener('submit', async (e) => {
 
   try {
     // Load gallery
-    const { data: gallery, error } = await supabase
+    const { data: gallery, error } = await supabaseClient
       .from('galleries')
       .select('*')
       .eq('gallery_id', galleryId)
@@ -88,13 +88,13 @@ passwordForm.addEventListener('submit', async (e) => {
     galleryView.classList.remove('hidden');
 
     // Increment view count
-    await supabase
+    await supabaseClient
       .from('galleries')
       .update({ view_count: currentGallery.view_count + 1 })
       .eq('gallery_id', galleryId);
 
     // Track analytics
-    await supabase
+    await supabaseClient
       .from('analytics')
       .insert([{
         gallery_id: galleryId,
@@ -122,7 +122,7 @@ async function loadGallery() {
     gallerySubtitle.textContent = currentGallery.event_name;
 
     // Load media
-    const { data: media, error } = await supabase
+    const { data: media, error } = await supabaseClient
       .from('media')
       .select('*')
       .eq('gallery_id', galleryId)
@@ -210,13 +210,13 @@ function createMediaItem(media, index) {
 window.trackDownload = async function(mediaId) {
   try {
     // Increment gallery download count
-    await supabase
+    await supabaseClient
       .from('galleries')
       .update({ download_count: currentGallery.download_count + 1 })
       .eq('gallery_id', galleryId);
 
     // Track analytics
-    await supabase
+    await supabaseClient
       .from('analytics')
       .insert([{
         gallery_id: galleryId,

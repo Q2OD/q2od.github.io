@@ -22,7 +22,7 @@ const R2_CONFIG = {
   accountId: '3f053b5175a3dc2df64c852741820067',
   bucketName: 'caleb-media-videos', // ⚠️ CHANGE IF YOUR BUCKET HAS DIFFERENT NAME
   // Public bucket URL (if using public bucket)
-  publicUrl: 'media.calebthephotoguy.com' // ⚠️ GET THIS FROM R2 DASHBOARD
+  publicUrl: 'https://media.calebthephotoguy.com' // ⚠️ GET THIS FROM R2 DASHBOARD
 };
 
 // Initialize Supabase client

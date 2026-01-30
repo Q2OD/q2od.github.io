@@ -1,14 +1,9 @@
-/**
- * Admin Panel Logic (Supabase Version)
- * Handles authentication, gallery management, and file uploads
- */
-
 console.log('🚀 Admin panel loading...');
 console.log('📦 window.supabaseInit:', window.supabaseInit);
 
-const { supabase, generateUUID, hashPassword, formatFileSize, formatTimestamp } = window.supabaseInit;
+const { supabase: supabaseClient, generateUUID, hashPassword, formatFileSize, formatTimestamp } = window.supabaseInit;
 
-console.log('✅ Supabase client:', supabase);
+console.log('✅ Supabase client:', supabaseClient);
 console.log('✅ Helpers loaded:', { generateUUID, hashPassword });
 
 const uploadManager = new UploadManager();
@@ -35,7 +30,7 @@ const galleriesList = document.getElementById('galleriesList');
 const emptyState = document.getElementById('emptyState');
 
 // Auth State
-supabase.auth.onAuthStateChange((event, session) => {
+supabaseClient.auth.onAuthStateChange((event, session) => {
   console.log('🔄 Auth state changed:', event, session ? 'Session exists' : 'No session');
 
   if (session) {
@@ -76,7 +71,7 @@ loginForm.addEventListener('submit', async (e) => {
     submitBtn.disabled = true;
     console.log('⏳ Calling Supabase auth...');
 
-    const { data, error } = await supabase.auth.signInWithPassword({
+    const { data, error } = await supabaseClient.auth.signInWithPassword({
       email,
       password
     });
@@ -119,7 +114,7 @@ loginForm.addEventListener('submit', async (e) => {
 
 // Logout
 logoutBtn.addEventListener('click', async () => {
-  await supabase.auth.signOut();
+  await supabaseClient.auth.signOut();
 });
 
 // Create Gallery Modal
@@ -150,7 +145,7 @@ createGalleryForm.addEventListener('submit', async (e) => {
     const passwordHash = await hashPassword(galleryPassword);
     const shareableLink = `${window.location.origin}/gallery.html?id=${galleryId}`;
 
-    const { data, error } = await supabase
+    const { data, error } = await supabaseClient
       .from('galleries')
       .insert([{
         gallery_id: galleryId,
@@ -263,17 +258,17 @@ async function loadDashboard() {
 async function loadStats() {
   try {
     // Get total galleries
-    const { count: galleriesCount } = await supabase
+    const { count: galleriesCount } = await supabaseClient
       .from('galleries')
       .select('*', { count: 'exact', head: true });
 
     // Get total media
-    const { count: mediaCount } = await supabase
+    const { count: mediaCount } = await supabaseClient
       .from('media')
       .select('*', { count: 'exact', head: true });
 
     // Get total views
-    const { data: galleries } = await supabase
+    const { data: galleries } = await supabaseClient
       .from('galleries')
       .select('view_count');
 
@@ -293,7 +288,7 @@ async function loadStats() {
 // Load Galleries
 async function loadGalleries() {
   try {
-    const { data: galleries, error } = await supabase
+    const { data: galleries, error } = await supabaseClient
       .from('galleries')
       .select('*')
       .order('created_at', { ascending: false });
@@ -404,7 +399,7 @@ function createGalleryCard(gallery) {
       await uploadManager.deleteGalleryMedia(gallery.gallery_id);
 
       // Delete gallery (media records will cascade delete)
-      const { error } = await supabase
+      const { error } = await supabaseClient
         .from('galleries')
         .delete()
         .eq('gallery_id', gallery.gallery_id);
