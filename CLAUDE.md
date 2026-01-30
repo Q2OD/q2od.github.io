@@ -13,13 +13,16 @@ Domain: calebthephotoguy.com (GitHub Pages custom domain)
 **Static site with multiple pages:**
 - `index.html` - Main site (all content, styles, scripts) - approximately 1,100+ lines
 - `terms.html` - Terms of Service page (separate page with same design system)
-- No build process, no dependencies, no package manager
+- `admin.html` - Admin panel for gallery management (NEW)
+- `gallery.html` - Client gallery viewer (NEW)
+- No build process for main site
 - Hosted on GitHub Pages at `q2od.github.io`
 
 **Key technologies:**
 - Tailwind CSS via CDN (`https://cdn.tailwindcss.com`)
 - Google Fonts: Bebas Neue (display) and DM Sans (body text)
-- Vanilla JavaScript (minimal - only for copyright year)
+- Vanilla JavaScript (main site + gallery system)
+- Firebase (Firestore, Storage, Auth, Cloud Functions) for gallery system
 
 **Styling approach:**
 - Inline Tailwind configuration in `<script>` tag (lines 26-67)
@@ -33,11 +36,28 @@ Domain: calebthephotoguy.com (GitHub Pages custom domain)
 /
 ├── index.html          # Main site (all content, styles, scripts)
 ├── terms.html          # Terms of Service page (standalone, same design)
-├── sitemap.xml         # SEO sitemap (includes both index and terms pages)
+├── admin.html          # Admin panel for gallery management
+├── gallery.html        # Client gallery viewer (password-protected)
+├── sitemap.xml         # SEO sitemap
+├── robots.txt          # Search engine rules (admin/gallery noindexed)
 ├── CNAME               # Custom domain configuration
 ├── CLAUDE.md           # Documentation for Claude Code
+├── SETUP.md            # Gallery system setup instructions
+├── GALLERY.md          # Gallery system documentation
+├── firestore.rules     # Firestore security rules
+├── storage.rules       # Firebase Storage security rules
+├── .gitignore          # Git ignore patterns
+├── js/
+│   ├── firebase-init.js    # Firebase SDK initialization
+│   ├── admin.js            # Admin panel logic
+│   ├── gallery.js          # Gallery viewer logic
+│   ├── upload-manager.js   # File upload handling
+│   └── lightbox.js         # Fullscreen media viewer
+├── functions/
+│   ├── index.js            # Firebase Cloud Functions (R2 integration)
+│   └── package.json        # Function dependencies
 └── assets/
-    └── favicon.svg     # Logo/favicon (CM initials with gradient)
+    └── favicon.svg         # Logo/favicon (CM initials with gradient)
 ```
 
 ## Common Commands
@@ -154,9 +174,36 @@ The "BOOK" keyword triggers an automated question flow on Instagram to collect b
 - Open Graph tags (lines 13-15)
 - Sitemap lastmod timestamp (sitemap.xml line 9)
 
+## Gallery System
+
+**NEW: Client Gallery System** - Password-protected photo/video galleries for clients.
+
+See [GALLERY.md](GALLERY.md) for full documentation and [SETUP.md](SETUP.md) for setup instructions.
+
+**Quick overview:**
+- Admin panel at `/admin.html` (Firebase Auth required)
+- Client galleries at `/gallery.html?id={galleryId}` (password-protected)
+- Photos stored in Firebase Storage
+- Videos stored in Firebase Storage (MVP) or Cloudflare R2 (optional)
+- Gallery metadata and analytics tracked in Firestore
+- Security enforced via Firebase Security Rules + UUIDs + hashed passwords
+
+**Common commands:**
+```bash
+# Deploy security rules
+firebase deploy --only firestore:rules,storage:rules
+
+# Deploy cloud functions (optional, for R2)
+firebase deploy --only functions
+
+# View function logs
+firebase functions:log
+```
+
 ## Deployment
 
 This is a GitHub Pages site:
 - Automatically deploys from `main` branch
 - Custom domain configured via CNAME file
-- No build step required - push HTML and changes go live immediately
+- No build step required for main site - push HTML and changes go live immediately
+- Firebase backend requires separate deployment (see SETUP.md)

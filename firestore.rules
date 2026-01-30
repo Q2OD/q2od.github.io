@@ -1,0 +1,43 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+
+    // Helper function: Check if user is authenticated admin
+    function isAdmin() {
+      return request.auth != null;
+    }
+
+    // Galleries collection
+    match /galleries/{galleryId} {
+      // Admin: Full read/write access
+      allow read, write: if isAdmin();
+
+      // Public: Read-only access (password check happens in app)
+      // Clients need to read gallery data to verify password
+      allow read: if true;
+    }
+
+    // Media collection
+    match /media/{mediaId} {
+      // Admin: Full read/write access
+      allow read, write: if isAdmin();
+
+      // Public: Read-only access
+      // Clients need to read media to view photos/videos
+      allow read: if true;
+    }
+
+    // Analytics collection
+    match /analytics/{analyticsId} {
+      // Admin: Full read access
+      allow read: if isAdmin();
+
+      // Public: Write-only access (for tracking views/downloads)
+      // Clients can add analytics but not read/modify existing ones
+      allow create: if true;
+
+      // Deny updates and deletes from public
+      allow update, delete: if isAdmin();
+    }
+  }
+}

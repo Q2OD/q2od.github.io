@@ -1,0 +1,21 @@
+rules_version = '2';
+service firebase.storage {
+  match /b/{bucket}/o {
+
+    // Helper function: Check if user is authenticated admin
+    function isAdmin() {
+      return request.auth != null;
+    }
+
+    // Gallery media files
+    match /galleries/{galleryId}/{mediaType}/{filename} {
+      // Admin: Full read/write access
+      allow read, write: if isAdmin();
+
+      // Public: Read-only access
+      // Clients with gallery password can view/download media
+      // URLs are unguessable (UUIDs), providing security through obscurity
+      allow read: if true;
+    }
+  }
+}

@@ -1,0 +1,304 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Admin Panel - Caleb Media Gallery Manager</title>
+  <meta name="robots" content="noindex, nofollow">
+
+  <!-- Favicon -->
+  <link rel="icon" type="image/svg+xml" href="assets/favicon.svg">
+
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+  <!-- Tailwind (CDN) -->
+  <script src="https://cdn.tailwindcss.com"></script>
+
+  <!-- Tailwind config -->
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          fontFamily: {
+            display: ['"Bebas Neue"', 'sans-serif'],
+            sans: ['"DM Sans"', 'sans-serif']
+          },
+          colors: {
+            ink: "#0a0a0a",
+            paper: "#ffffff",
+            blaze: "#ff6a00",
+            blaze2: "#ff8a2a",
+            court: "#8b4513"
+          },
+          boxShadow: {
+            glow: "0 0 0 1px rgba(255,106,0,.3), 0 20px 60px rgba(255,106,0,.15)",
+            'glow-sm': "0 0 0 1px rgba(255,106,0,.2), 0 10px 30px rgba(255,106,0,.1)"
+          }
+        }
+      }
+    }
+  </script>
+
+  <style>
+    .bg-flavor {
+      background:
+        radial-gradient(circle at 20% 30%, rgba(255,106,0,.08), transparent 50%),
+        radial-gradient(circle at 80% 20%, rgba(255,138,42,.06), transparent 45%),
+        radial-gradient(circle at 50% 95%, rgba(139,69,19,.04), transparent 40%),
+        linear-gradient(180deg, rgba(10,10,10,1) 0%, rgba(15,15,15,1) 100%);
+    }
+
+    .ring-soft {
+      box-shadow: 0 0 0 1px rgba(255,255,255,.08) inset;
+    }
+
+    .text-gradient {
+      background: linear-gradient(135deg, #ff6a00 0%, #ff8a2a 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+  </style>
+
+  <!-- Supabase SDK -->
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+</head>
+
+<body class="bg-ink text-paper bg-flavor min-h-screen font-sans">
+
+  <!-- Login Screen -->
+  <div id="loginScreen" class="min-h-screen flex items-center justify-center p-5">
+    <div class="w-full max-w-md">
+      <div class="text-center mb-8">
+        <h1 class="font-display text-5xl text-gradient mb-2">Admin Login</h1>
+        <p class="text-paper/60">Caleb Media Gallery Manager</p>
+      </div>
+
+      <div class="bg-white/5 backdrop-blur-xl rounded-2xl p-8 ring-soft shadow-glow">
+        <form id="loginForm" class="space-y-6">
+          <div>
+            <label for="email" class="block text-sm font-medium mb-2">Email</label>
+            <input
+              type="email"
+              id="email"
+              required
+              class="w-full px-4 py-3 bg-white/5 border border-white/10 rounded-lg focus:outline-none focus:border-blaze transition-colors text-paper"
+              placeholder="admin@example.com"
+            >
+          </div>
+
+          <div>
+            <label for="password" class="block text-sm font-medium mb-2">Password</label>
+            <input
+              type="password"
+              id="password"
+              required
+              class="w-full px-4 py-3 bg-white/5 border border-white/10 rounded-lg focus:outline-none focus:border-blaze transition-colors text-paper"
+              placeholder="••••••••"
+            >
+          </div>
+
+          <button
+            type="submit"
+            class="w-full px-6 py-3 bg-gradient-to-r from-blaze to-blaze2 rounded-lg font-semibold hover:shadow-glow transition-all"
+          >
+            Sign In
+          </button>
+
+          <div id="loginError" class="hidden text-red-400 text-sm text-center"></div>
+        </form>
+      </div>
+    </div>
+  </div>
+
+  <!-- Dashboard -->
+  <div id="dashboard" class="hidden min-h-screen">
+    <!-- Header -->
+    <header class="sticky top-0 z-40 backdrop-blur-xl bg-ink/80 border-b border-white/10">
+      <div class="max-w-7xl mx-auto px-5 py-4 flex items-center justify-between">
+        <div class="flex items-center gap-3">
+          <span class="inline-flex h-11 w-11 items-center justify-center rounded-xl bg-blaze text-ink font-black shadow-glow ring-soft">
+            CM
+          </span>
+          <div>
+            <h1 class="font-display text-2xl text-gradient">Gallery Manager</h1>
+            <p class="text-xs text-paper/60">Admin Dashboard</p>
+          </div>
+        </div>
+
+        <button
+          id="logoutBtn"
+          class="px-4 py-2 bg-white/5 hover:bg-white/10 rounded-lg border border-white/10 transition-colors text-sm"
+        >
+          Sign Out
+        </button>
+      </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="max-w-7xl mx-auto px-5 py-8">
+
+      <!-- Stats Overview -->
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
+        <div class="bg-white/5 backdrop-blur-xl rounded-2xl p-6 ring-soft">
+          <div class="text-paper/60 text-sm mb-2">Total Galleries</div>
+          <div class="font-display text-4xl text-gradient" id="statTotalGalleries">0</div>
+        </div>
+        <div class="bg-white/5 backdrop-blur-xl rounded-2xl p-6 ring-soft">
+          <div class="text-paper/60 text-sm mb-2">Total Media</div>
+          <div class="font-display text-4xl text-gradient" id="statTotalMedia">0</div>
+        </div>
+        <div class="bg-white/5 backdrop-blur-xl rounded-2xl p-6 ring-soft">
+          <div class="text-paper/60 text-sm mb-2">Total Views</div>
+          <div class="font-display text-4xl text-gradient" id="statTotalViews">0</div>
+        </div>
+      </div>
+
+      <!-- Actions -->
+      <div class="flex items-center justify-between mb-6">
+        <h2 class="font-display text-3xl text-gradient">Galleries</h2>
+        <button
+          id="createGalleryBtn"
+          class="px-6 py-3 bg-gradient-to-r from-blaze to-blaze2 rounded-lg font-semibold hover:shadow-glow transition-all"
+        >
+          + Create Gallery
+        </button>
+      </div>
+
+      <!-- Galleries List -->
+      <div id="galleriesList" class="space-y-4">
+        <!-- Gallery cards will be inserted here -->
+      </div>
+
+      <!-- Empty State -->
+      <div id="emptyState" class="hidden text-center py-20">
+        <div class="text-6xl mb-4">📸</div>
+        <h3 class="font-display text-3xl text-gradient mb-2">No Galleries Yet</h3>
+        <p class="text-paper/60 mb-6">Create your first gallery to get started</p>
+        <button
+          class="px-6 py-3 bg-gradient-to-r from-blaze to-blaze2 rounded-lg font-semibold hover:shadow-glow transition-all"
+          onclick="document.getElementById('createGalleryBtn').click()"
+        >
+          + Create Gallery
+        </button>
+      </div>
+    </main>
+  </div>
+
+  <!-- Create Gallery Modal -->
+  <div id="createGalleryModal" class="hidden fixed inset-0 z-50 flex items-center justify-center p-5 bg-black/80 backdrop-blur-sm">
+    <div class="bg-ink border border-white/10 rounded-2xl p-8 max-w-2xl w-full max-h-[90vh] overflow-y-auto ring-soft shadow-glow">
+      <div class="flex items-center justify-between mb-6">
+        <h2 class="font-display text-3xl text-gradient">Create Gallery</h2>
+        <button id="closeCreateModal" class="text-paper/60 hover:text-paper transition-colors text-2xl">×</button>
+      </div>
+
+      <form id="createGalleryForm" class="space-y-6">
+        <div>
+          <label for="clientName" class="block text-sm font-medium mb-2">Client Name *</label>
+          <input
+            type="text"
+            id="clientName"
+            required
+            class="w-full px-4 py-3 bg-white/5 border border-white/10 rounded-lg focus:outline-none focus:border-blaze transition-colors text-paper"
+            placeholder="John Smith"
+          >
+        </div>
+
+        <div>
+          <label for="eventName" class="block text-sm font-medium mb-2">Event Name *</label>
+          <input
+            type="text"
+            id="eventName"
+            required
+            class="w-full px-4 py-3 bg-white/5 border border-white/10 rounded-lg focus:outline-none focus:border-blaze transition-colors text-paper"
+            placeholder="Basketball Game 2026"
+          >
+        </div>
+
+        <div>
+          <label for="galleryPassword" class="block text-sm font-medium mb-2">Gallery Password *</label>
+          <input
+            type="text"
+            id="galleryPassword"
+            required
+            class="w-full px-4 py-3 bg-white/5 border border-white/10 rounded-lg focus:outline-none focus:border-blaze transition-colors text-paper"
+            placeholder="Enter a password clients will use to access"
+          >
+          <p class="text-xs text-paper/60 mt-1">This password will be shared with the client</p>
+        </div>
+
+        <div class="flex gap-4">
+          <button
+            type="submit"
+            class="flex-1 px-6 py-3 bg-gradient-to-r from-blaze to-blaze2 rounded-lg font-semibold hover:shadow-glow transition-all"
+          >
+            Create Gallery
+          </button>
+          <button
+            type="button"
+            id="cancelCreateBtn"
+            class="px-6 py-3 bg-white/5 hover:bg-white/10 rounded-lg border border-white/10 transition-colors"
+          >
+            Cancel
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- Upload Media Modal -->
+  <div id="uploadMediaModal" class="hidden fixed inset-0 z-50 flex items-center justify-center p-5 bg-black/80 backdrop-blur-sm">
+    <div class="bg-ink border border-white/10 rounded-2xl p-8 max-w-2xl w-full max-h-[90vh] overflow-y-auto ring-soft shadow-glow">
+      <div class="flex items-center justify-between mb-6">
+        <h2 class="font-display text-3xl text-gradient">Upload Media</h2>
+        <button id="closeUploadModal" class="text-paper/60 hover:text-paper transition-colors text-2xl">×</button>
+      </div>
+
+      <div class="space-y-6">
+        <div>
+          <label class="block text-sm font-medium mb-2">Select Files</label>
+          <input
+            type="file"
+            id="mediaFiles"
+            multiple
+            accept="image/*,video/*"
+            class="w-full px-4 py-3 bg-white/5 border border-white/10 rounded-lg focus:outline-none focus:border-blaze transition-colors text-paper file:mr-4 file:py-2 file:px-4 file:rounded-lg file:border-0 file:bg-blaze file:text-ink file:font-semibold hover:file:bg-blaze2"
+          >
+          <p class="text-xs text-paper/60 mt-1">Images and videos supported</p>
+        </div>
+
+        <div id="uploadProgress" class="hidden space-y-2">
+          <div class="text-sm text-paper/60">Uploading files...</div>
+          <div id="uploadList" class="space-y-2">
+            <!-- Upload progress items will be inserted here -->
+          </div>
+        </div>
+
+        <div class="flex gap-4">
+          <button
+            id="uploadFilesBtn"
+            class="flex-1 px-6 py-3 bg-gradient-to-r from-blaze to-blaze2 rounded-lg font-semibold hover:shadow-glow transition-all"
+          >
+            Upload Files
+          </button>
+          <button
+            id="cancelUploadBtn"
+            class="px-6 py-3 bg-white/5 hover:bg-white/10 rounded-lg border border-white/10 transition-colors"
+          >
+            Cancel
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Scripts -->
+  <script src="js/supabase-init.js"></script>
+  <script src="js/upload-manager-r2.js"></script>
+  <script src="js/admin-supabase.js"></script>
+</body>
+</html>
