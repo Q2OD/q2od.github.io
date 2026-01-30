@@ -3,7 +3,14 @@
  * Handles authentication, gallery management, and file uploads
  */
 
+console.log('🚀 Admin panel loading...');
+console.log('📦 window.supabaseInit:', window.supabaseInit);
+
 const { supabase, generateUUID, hashPassword, formatFileSize, formatTimestamp } = window.supabaseInit;
+
+console.log('✅ Supabase client:', supabase);
+console.log('✅ Helpers loaded:', { generateUUID, hashPassword });
+
 const uploadManager = new UploadManager();
 
 let currentGalleryId = null;
@@ -29,12 +36,16 @@ const emptyState = document.getElementById('emptyState');
 
 // Auth State
 supabase.auth.onAuthStateChange((event, session) => {
+  console.log('🔄 Auth state changed:', event, session ? 'Session exists' : 'No session');
+
   if (session) {
+    console.log('✅ User logged in:', session.user.email);
     currentUser = session.user;
     loginScreen.classList.add('hidden');
     dashboard.classList.remove('hidden');
     loadDashboard();
   } else {
+    console.log('❌ No session - showing login screen');
     currentUser = null;
     loginScreen.classList.remove('hidden');
     dashboard.classList.add('hidden');
@@ -44,8 +55,12 @@ supabase.auth.onAuthStateChange((event, session) => {
 // Login
 loginForm.addEventListener('submit', async (e) => {
   e.preventDefault();
+  console.log('🔐 Login form submitted');
+
   const email = document.getElementById('email').value;
   const password = document.getElementById('password').value;
+  console.log('📧 Email:', email);
+  console.log('🔑 Password length:', password.length);
 
   // Clear previous errors
   loginError.classList.add('hidden');
@@ -59,17 +74,21 @@ loginForm.addEventListener('submit', async (e) => {
     // Show loading state
     submitBtn.textContent = 'Signing in...';
     submitBtn.disabled = true;
+    console.log('⏳ Calling Supabase auth...');
 
     const { data, error } = await supabase.auth.signInWithPassword({
       email,
       password
     });
 
+    console.log('📦 Auth response:', { data, error });
+
     if (error) throw error;
 
+    console.log('✅ Login successful!');
     // Success - error will stay hidden
   } catch (error) {
-    console.error('Login error:', error);
+    console.error('❌ Login error:', error);
 
     // Show user-friendly error messages
     let errorMessage = '';
