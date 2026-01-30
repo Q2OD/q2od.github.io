@@ -49,8 +49,8 @@ serve(async (req) => {
 
     const uploadUrl = await getSignedUrl(s3Client, command, { expiresIn: 3600 })
 
-    // Generate public URL for accessing the file
-    const publicUrl = `https://pub-${R2_ACCOUNT_ID}.r2.dev/${key}`
+    // Generate public URL for accessing the file (using custom domain)
+    const publicUrl = `https://media.calebthephotoguy.com/${key}`
 
     return new Response(
       JSON.stringify({

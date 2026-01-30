@@ -190,13 +190,27 @@
 
     if (media.type === 'video') {
       item.innerHTML = `
-        <video src="${media.storage_url}" class="pointer-events-none"></video>
+        <video src="${media.storage_url}" class="pointer-events-none" crossorigin="anonymous"></video>
         <div class="video-badge">▶ VIDEO</div>
       `;
     } else {
-      item.innerHTML = `
-        <img src="${media.storage_url}" alt="${media.filename}" loading="lazy">
-      `;
+      const img = document.createElement('img');
+      img.src = media.storage_url;
+      img.alt = media.filename;
+      img.loading = 'lazy';
+      img.crossOrigin = 'anonymous';
+
+      // Add error handling
+      img.onerror = function() {
+        console.error('Failed to load image:', media.storage_url);
+        this.parentElement.innerHTML = `
+          <div class="flex items-center justify-center h-full bg-red-900/20 text-red-400 text-sm p-4">
+            ⚠️ Failed to load<br>${media.filename}
+          </div>
+        `;
+      };
+
+      item.appendChild(img);
     }
 
     // Click to open lightbox

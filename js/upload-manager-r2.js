@@ -1,6 +1,6 @@
 /**
- * Upload Manager for Supabase Storage
- * Handles file uploads to Supabase Storage bucket
+ * Upload Manager for R2 Storage (via Supabase Edge Function)
+ * Handles file uploads to Cloudflare R2 using presigned URLs
  */
 
 class UploadManager {
@@ -8,7 +8,6 @@ class UploadManager {
     this.db = window.supabaseInit.supabase;
     this.generateUUID = window.supabaseInit.generateUUID;
     this.formatFileSize = window.supabaseInit.formatFileSize;
-    this.BUCKET_NAME = 'gallery-media'; // Supabase Storage bucket
   }
 
   /**
@@ -35,8 +34,8 @@ class UploadManager {
       try {
         onProgress?.(file.name, i + 1, fileArray.length, 'uploading');
 
-        // Upload to Supabase Storage
-        const storageUrl = await this.uploadToStorage(file, galleryId);
+        // Upload to R2 via Edge Function
+        const storageUrl = await this.uploadToR2(file, galleryId);
 
         // Create media record in Supabase
         const mediaId = this.generateUUID();
@@ -82,73 +81,64 @@ class UploadManager {
   }
 
   /**
-   * Upload file to Supabase Storage
+   * Upload file to R2 using presigned URL from Edge Function
    * @param {File} file - File to upload
    * @param {string} galleryId - Gallery ID
    * @returns {Promise<string>} Public URL
    */
-  async uploadToStorage(file, galleryId) {
-    const filename = `${Date.now()}_${file.name}`;
-    const path = `galleries/${galleryId}/${filename}`;
+  async uploadToR2(file, galleryId) {
+    // Generate unique key (timestamp + random UUID + filename)
+    const timestamp = Date.now();
+    const randomId = this.generateUUID().substring(0, 8);
+    const key = `galleries/${galleryId}/${timestamp}_${randomId}_${file.name}`;
 
-    // Upload to Supabase Storage
-    const { data, error } = await this.db.storage
-      .from(this.BUCKET_NAME)
-      .upload(path, file, {
-        cacheControl: '3600',
-        upsert: false
-      });
+    // Call Edge Function to get presigned upload URL
+    const { data, error } = await this.db.functions.invoke('r2-upload-url', {
+      body: {
+        key,
+        contentType: file.type
+      }
+    });
 
     if (error) {
-      throw new Error(`Storage upload failed: ${error.message}`);
+      throw new Error(`Failed to get upload URL: ${error.message}`);
     }
 
-    // Get public URL
-    const { data: urlData } = this.db.storage
-      .from(this.BUCKET_NAME)
-      .getPublicUrl(path);
+    if (!data || !data.uploadUrl || !data.publicUrl) {
+      throw new Error('Invalid response from upload URL generator');
+    }
 
-    return urlData.publicUrl;
+    // Upload file to R2 using presigned URL
+    const uploadResponse = await fetch(data.uploadUrl, {
+      method: 'PUT',
+      body: file,
+      headers: {
+        'Content-Type': file.type
+      }
+    });
+
+    if (!uploadResponse.ok) {
+      throw new Error(`R2 upload failed: ${uploadResponse.statusText}`);
+    }
+
+    // Return public URL for accessing the file
+    return data.publicUrl;
   }
 
   /**
-   * Delete media file from Supabase Storage
+   * Delete media file from R2
    * @param {string} mediaId - Media ID
    * @param {string} storageUrl - Storage URL
    */
   async deleteMedia(mediaId, storageUrl) {
-    try {
-      // Extract path from storage URL
-      const urlObj = new URL(storageUrl);
-      const pathMatch = urlObj.pathname.match(/\/storage\/v1\/object\/public\/[^/]+\/(.+)/);
+    // Note: Deletion from R2 requires another Edge Function
+    // For now, just delete from database
+    console.warn('R2 file deletion not implemented - file will remain in R2');
 
-      if (pathMatch) {
-        const path = pathMatch[1];
-
-        // Delete from Supabase Storage
-        const { error } = await this.db.storage
-          .from(this.BUCKET_NAME)
-          .remove([path]);
-
-        if (error) {
-          console.error('Failed to delete from storage:', error);
-        }
-      }
-
-      // Delete from database
-      await this.db
-        .from('media')
-        .delete()
-        .eq('media_id', mediaId);
-
-    } catch (error) {
-      console.error('Failed to delete media:', error);
-      // Still try to delete from database even if storage delete fails
-      await this.db
-        .from('media')
-        .delete()
-        .eq('media_id', mediaId);
-    }
+    await this.db
+      .from('media')
+      .delete()
+      .eq('media_id', mediaId);
   }
 
   /**

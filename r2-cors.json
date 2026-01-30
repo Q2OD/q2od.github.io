@@ -1,0 +1,23 @@
+[
+  {
+    "AllowedOrigins": [
+      "https://calebthephotoguy.com",
+      "https://www.calebthephotoguy.com",
+      "http://localhost:8000",
+      "http://localhost:3000",
+      "*"
+    ],
+    "AllowedMethods": [
+      "GET",
+      "HEAD",
+      "PUT"
+    ],
+    "AllowedHeaders": [
+      "*"
+    ],
+    "ExposeHeaders": [
+      "ETag"
+    ],
+    "MaxAgeSeconds": 3600
+  }
+]
