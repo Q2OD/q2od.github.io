@@ -94,7 +94,7 @@ publicUrl: 'https://pub-xxxxx.r2.dev' // ← Replace with your actual URL
 1. Click on your `caleb-media` bucket
 2. Click **"Settings"** tab
 3. Under **Public Access**, click **"Allow Access"**
-4. Copy the public URL shown (e.g., `https://pub-3f053b5175a3dc2df64c852741820067.r2.dev`)
+4. Copy the public URL shown (e.g., `media.calebthephotoguy.com`)
 5. Update `js/supabase-init.js` line 19 with this URL
 
 **Note:** Public bucket means anyone with a direct URL can access files. Since gallery URLs are UUIDs (unguessable), this is secure enough for MVP.

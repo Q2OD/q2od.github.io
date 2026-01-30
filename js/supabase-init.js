@@ -14,19 +14,19 @@
  */
 
 // Supabase configuration
-const SUPABASE_URL = 'https://gjdzcdgqfapwucroxfpb.supabase.co'; // ⚠️ NEED YOUR PROJECT URL
-const SUPABASE_ANON_KEY = 'sb_publishable_8hCUfgEmrDzvemzpfRHRHQ_pIuAktmX';
+const SUPABASE_URL = 'https://gjdzcdgqfapwucroxfpb.supabase.co';
+const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImdqZHpjZGdxZmFwd3Vjcm94ZnBiIiwicm9sZSI6ImFub24iLCJpYXQiOjE3Njk3NDkzNzEsImV4cCI6MjA4NTMyNTM3MX0.vW4Poycjy5vxpCAY5obxZWqM0I-WEP50E7lQGfiyqg8'; // ← REPLACE with real key from Supabase (starts with eyJ...)
 
 // Cloudflare R2 configuration
 const R2_CONFIG = {
   accountId: '3f053b5175a3dc2df64c852741820067',
   bucketName: 'caleb-media-videos', // ⚠️ CHANGE IF YOUR BUCKET HAS DIFFERENT NAME
   // Public bucket URL (if using public bucket)
-  publicUrl: 'https://pub-3f053b5175a3dc2df64c852741820067.r2.dev' // ⚠️ GET THIS FROM R2 DASHBOARD
+  publicUrl: 'media.calebthephotoguy.com' // ⚠️ GET THIS FROM R2 DASHBOARD
 };
 
 // Initialize Supabase client
-const supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+const supabaseClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
 
 // Helper: Generate UUID v4
 function generateUUID() {
@@ -124,7 +124,7 @@ async function getR2DownloadUrl(key) {
 
 // Export for use in other files
 window.supabaseInit = {
-  supabase,
+  supabase: supabaseClient,
   R2_CONFIG,
   generateUUID,
   hashPassword,

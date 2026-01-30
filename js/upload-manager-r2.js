@@ -1,6 +1,6 @@
 /**
- * Upload Manager for R2 Storage
- * Handles file uploads to Cloudflare R2
+ * Upload Manager for R2 Storage (Simplified - Public Bucket Only)
+ * Handles file uploads directly to Cloudflare R2
  */
 
 class UploadManager {
@@ -82,72 +82,21 @@ class UploadManager {
   }
 
   /**
-   * Upload file to R2
+   * Upload file directly to public R2 bucket
    * @param {File} file - File to upload
    * @param {string} galleryId - Gallery ID
    * @returns {Promise<string>} R2 URL
    */
   async uploadToR2(file, galleryId) {
+    if (!this.R2_CONFIG.publicUrl) {
+      throw new Error('R2 public URL not configured. Please update js/supabase-init.js');
+    }
+
     const filename = `${Date.now()}_${file.name}`;
     const key = `galleries/${galleryId}/${filename}`;
-
-    // OPTION 1: Upload via presigned URL (requires Supabase Edge Function)
-    // This is the secure approach - backend generates presigned URL
-    try {
-      // Call Supabase Edge Function to get presigned upload URL
-      const { data: urlData, error: urlError } = await this.supabase.functions.invoke('r2-upload-url', {
-        body: {
-          key,
-          contentType: file.type
-        }
-      });
-
-      if (urlError) throw urlError;
-
-      // Upload to R2 using presigned URL
-      const uploadResponse = await fetch(urlData.uploadUrl, {
-        method: 'PUT',
-        body: file,
-        headers: {
-          'Content-Type': file.type
-        }
-      });
-
-      if (!uploadResponse.ok) {
-        throw new Error(`R2 upload failed: ${uploadResponse.statusText}`);
-      }
-
-      // Return the public URL
-      return urlData.publicUrl;
-
-    } catch (error) {
-      console.error('R2 upload error:', error);
-
-      // OPTION 2: Fallback to direct upload if public bucket
-      // WARNING: Only use this if your R2 bucket allows public uploads
-      // This is NOT recommended for production
-      if (this.R2_CONFIG.publicUrl) {
-        console.warn('Falling back to public R2 upload - configure Edge Function for production');
-        return await this.uploadToPublicR2(file, key);
-      }
-
-      throw new Error('R2 upload failed. Please configure Supabase Edge Function (see SETUP.md)');
-    }
-  }
-
-  /**
-   * Upload to public R2 bucket (fallback, not recommended for production)
-   * @param {File} file - File to upload
-   * @param {string} key - R2 object key
-   * @returns {Promise<string>} R2 URL
-   */
-  async uploadToPublicR2(file, key) {
-    // This only works if your R2 bucket allows public uploads
-    // Configure CORS on your R2 bucket:
-    // [{"AllowedOrigins": ["*"], "AllowedMethods": ["PUT"], "AllowedHeaders": ["*"]}]
-
     const url = `${this.R2_CONFIG.publicUrl}/${key}`;
 
+    // Upload directly to public R2 bucket
     const response = await fetch(url, {
       method: 'PUT',
       body: file,
@@ -157,7 +106,7 @@ class UploadManager {
     });
 
     if (!response.ok) {
-      throw new Error(`Public R2 upload failed: ${response.statusText}`);
+      throw new Error(`R2 upload failed: ${response.statusText}`);
     }
 
     return url;
@@ -169,20 +118,11 @@ class UploadManager {
    * @param {string} storageUrl - Storage URL
    */
   async deleteMedia(mediaId, storageUrl) {
-    try {
-      // Delete from R2 via Edge Function
-      const key = this.extractKeyFromUrl(storageUrl);
-
-      const { error } = await this.supabase.functions.invoke('r2-delete', {
-        body: { key }
-      });
-
-      if (error) {
-        console.warn('R2 delete failed:', error);
-      }
-    } catch (error) {
-      console.warn('R2 delete error:', error);
-    }
+    // Note: Deleting from public R2 bucket requires API credentials
+    // For now, we just delete from database
+    // Files will remain in R2 but won't be accessible via gallery
+    console.warn('File deletion from R2 not implemented (requires API credentials)');
+    console.warn('File will be removed from database but remain in R2');
 
     // Delete from Supabase
     await this.supabase
@@ -211,27 +151,6 @@ class UploadManager {
     );
 
     await Promise.all(deletePromises);
-  }
-
-  /**
-   * Extract R2 key from URL
-   * @param {string} url - Full R2 URL
-   * @returns {string} R2 object key
-   */
-  extractKeyFromUrl(url) {
-    // Extract key from R2 URL
-    // Examples:
-    // https://pub-xxxxx.r2.dev/galleries/123/file.jpg -> galleries/123/file.jpg
-    // https://account.r2.cloudflarestorage.com/bucket/galleries/123/file.jpg -> galleries/123/file.jpg
-
-    const parts = url.split('/');
-    const galleriesIndex = parts.indexOf('galleries');
-
-    if (galleriesIndex === -1) {
-      throw new Error('Invalid R2 URL format');
-    }
-
-    return parts.slice(galleriesIndex).join('/');
   }
 }
 

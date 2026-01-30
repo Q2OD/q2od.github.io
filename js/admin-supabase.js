@@ -47,7 +47,19 @@ loginForm.addEventListener('submit', async (e) => {
   const email = document.getElementById('email').value;
   const password = document.getElementById('password').value;
 
+  // Clear previous errors
+  loginError.classList.add('hidden');
+  loginError.textContent = '';
+
+  // Get submit button
+  const submitBtn = e.target.querySelector('button[type="submit"]');
+  const originalText = submitBtn.textContent;
+
   try {
+    // Show loading state
+    submitBtn.textContent = 'Signing in...';
+    submitBtn.disabled = true;
+
     const { data, error } = await supabase.auth.signInWithPassword({
       email,
       password
@@ -55,10 +67,34 @@ loginForm.addEventListener('submit', async (e) => {
 
     if (error) throw error;
 
-    loginError.classList.add('hidden');
+    // Success - error will stay hidden
   } catch (error) {
-    loginError.textContent = error.message;
+    console.error('Login error:', error);
+
+    // Show user-friendly error messages
+    let errorMessage = '';
+
+    if (error.message.includes('Invalid login credentials')) {
+      errorMessage = '❌ Incorrect email or password. Please try again.';
+    } else if (error.message.includes('Email not confirmed')) {
+      errorMessage = '⚠️ Please confirm your email address before logging in.';
+    } else if (error.message.includes('User not found')) {
+      errorMessage = '❌ No account found with this email address.';
+    } else if (error.message.includes('Too many requests')) {
+      errorMessage = '⏳ Too many login attempts. Please wait a few minutes and try again.';
+    } else if (error.message.includes('Invalid email')) {
+      errorMessage = '⚠️ Please enter a valid email address.';
+    } else {
+      // Fallback to original error message
+      errorMessage = `❌ Login failed: ${error.message}`;
+    }
+
+    loginError.textContent = errorMessage;
     loginError.classList.remove('hidden');
+
+    // Reset button state
+    submitBtn.textContent = originalText;
+    submitBtn.disabled = false;
   }
 });
 

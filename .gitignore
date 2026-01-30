@@ -24,6 +24,7 @@ Thumbs.db
 
 # Supabase
 .env
+.env.example
 .env.local
 supabase/.branches
 supabase/.temp
