@@ -1,9 +1,14 @@
 console.log('🚀 Admin panel loading...');
 console.log('📦 window.supabaseInit:', window.supabaseInit);
 
-const { supabase: supabaseClient, generateUUID, hashPassword, formatFileSize, formatTimestamp } = window.supabaseInit;
+// Get references without using "supabase" as an identifier
+const db = window.supabaseInit.supabase;
+const generateUUID = window.supabaseInit.generateUUID;
+const hashPassword = window.supabaseInit.hashPassword;
+const formatFileSize = window.supabaseInit.formatFileSize;
+const formatTimestamp = window.supabaseInit.formatTimestamp;
 
-console.log('✅ Supabase client:', supabaseClient);
+console.log('✅ Database client:', db);
 console.log('✅ Helpers loaded:', { generateUUID, hashPassword });
 
 const uploadManager = new UploadManager();
@@ -30,7 +35,7 @@ const galleriesList = document.getElementById('galleriesList');
 const emptyState = document.getElementById('emptyState');
 
 // Auth State
-supabaseClient.auth.onAuthStateChange((event, session) => {
+db.auth.onAuthStateChange((event, session) => {
   console.log('🔄 Auth state changed:', event, session ? 'Session exists' : 'No session');
 
   if (session) {
@@ -71,7 +76,7 @@ loginForm.addEventListener('submit', async (e) => {
     submitBtn.disabled = true;
     console.log('⏳ Calling Supabase auth...');
 
-    const { data, error } = await supabaseClient.auth.signInWithPassword({
+    const { data, error } = await db.auth.signInWithPassword({
       email,
       password
     });
@@ -114,7 +119,7 @@ loginForm.addEventListener('submit', async (e) => {
 
 // Logout
 logoutBtn.addEventListener('click', async () => {
-  await supabaseClient.auth.signOut();
+  await db.auth.signOut();
 });
 
 // Create Gallery Modal
@@ -145,7 +150,7 @@ createGalleryForm.addEventListener('submit', async (e) => {
     const passwordHash = await hashPassword(galleryPassword);
     const shareableLink = `${window.location.origin}/gallery.html?id=${galleryId}`;
 
-    const { data, error } = await supabaseClient
+    const { data, error } = await db
       .from('galleries')
       .insert([{
         gallery_id: galleryId,
@@ -258,17 +263,17 @@ async function loadDashboard() {
 async function loadStats() {
   try {
     // Get total galleries
-    const { count: galleriesCount } = await supabaseClient
+    const { count: galleriesCount } = await db
       .from('galleries')
       .select('*', { count: 'exact', head: true });
 
     // Get total media
-    const { count: mediaCount } = await supabaseClient
+    const { count: mediaCount } = await db
       .from('media')
       .select('*', { count: 'exact', head: true });
 
     // Get total views
-    const { data: galleries } = await supabaseClient
+    const { data: galleries } = await db
       .from('galleries')
       .select('view_count');
 
@@ -288,7 +293,7 @@ async function loadStats() {
 // Load Galleries
 async function loadGalleries() {
   try {
-    const { data: galleries, error } = await supabaseClient
+    const { data: galleries, error } = await db
       .from('galleries')
       .select('*')
       .order('created_at', { ascending: false });
@@ -399,7 +404,7 @@ function createGalleryCard(gallery) {
       await uploadManager.deleteGalleryMedia(gallery.gallery_id);
 
       // Delete gallery (media records will cascade delete)
-      const { error } = await supabaseClient
+      const { error } = await db
         .from('galleries')
         .delete()
         .eq('gallery_id', gallery.gallery_id);

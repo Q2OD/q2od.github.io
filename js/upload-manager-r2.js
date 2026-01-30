@@ -5,7 +5,7 @@
 
 class UploadManager {
   constructor() {
-    this.supabase = window.supabaseInit.supabase;
+    this.db = window.supabaseInit.supabase;
     this.generateUUID = window.supabaseInit.generateUUID;
     this.formatFileSize = window.supabaseInit.formatFileSize;
     this.R2_CONFIG = window.supabaseInit.R2_CONFIG;
@@ -40,7 +40,7 @@ class UploadManager {
 
         // Create media record in Supabase
         const mediaId = this.generateUUID();
-        const { data, error } = await this.supabase
+        const { data, error } = await this.db
           .from('media')
           .insert([{
             media_id: mediaId,
@@ -58,13 +58,13 @@ class UploadManager {
 
         // Update gallery photo/video count
         const countField = isVideo ? 'video_count' : 'photo_count';
-        const { data: gallery } = await this.supabase
+        const { data: gallery } = await this.db
           .from('galleries')
           .select(countField)
           .eq('gallery_id', galleryId)
           .single();
 
-        await this.supabase
+        await this.db
           .from('galleries')
           .update({ [countField]: (gallery[countField] || 0) + 1 })
           .eq('gallery_id', galleryId);
@@ -125,7 +125,7 @@ class UploadManager {
     console.warn('File will be removed from database but remain in R2');
 
     // Delete from Supabase
-    await this.supabase
+    await this.db
       .from('media')
       .delete()
       .eq('media_id', mediaId);
@@ -136,7 +136,7 @@ class UploadManager {
    * @param {string} galleryId - Gallery ID
    */
   async deleteGalleryMedia(galleryId) {
-    const { data: media, error } = await this.supabase
+    const { data: media, error } = await this.db
       .from('media')
       .select('*')
       .eq('gallery_id', galleryId);

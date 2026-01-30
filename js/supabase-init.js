@@ -25,8 +25,8 @@ const R2_CONFIG = {
   publicUrl: 'https://media.calebthephotoguy.com' // ⚠️ GET THIS FROM R2 DASHBOARD
 };
 
-// Initialize Supabase client
-const supabaseClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+// Initialize Supabase client (using "db" to avoid name conflicts)
+const db = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
 
 // Helper: Generate UUID v4
 function generateUUID() {
@@ -124,7 +124,7 @@ async function getR2DownloadUrl(key) {
 
 // Export for use in other files
 window.supabaseInit = {
-  supabase: supabaseClient,
+  supabase: db,
   R2_CONFIG,
   generateUUID,
   hashPassword,
