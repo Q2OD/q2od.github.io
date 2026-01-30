@@ -175,9 +175,9 @@
       loadDashboard();
 
       // Show success message with shareable link
-      alert(`Gallery created!\n\nShareable Link:\n${shareableLink}\n\nPassword: ${galleryPassword}\n\nShare these with your client.`);
+      notify.success(`Gallery created successfully!\n\nShareable Link:\n${shareableLink}\n\nPassword: ${galleryPassword}\n\nShare these with your client.`, 10000);
     } catch (error) {
-      alert('Error creating gallery: ' + error.message);
+      notify.error('Error creating gallery: ' + error.message);
     }
   });
 
@@ -199,12 +199,12 @@
     const files = document.getElementById('mediaFiles').files;
 
     if (!files.length) {
-      alert('Please select files to upload');
+      notify.warning('Please select files to upload');
       return;
     }
 
     if (!currentGalleryId) {
-      alert('No gallery selected');
+      notify.error('No gallery selected');
       return;
     }
 
@@ -214,7 +214,7 @@
     uploadList.innerHTML = '';
 
     try {
-      await uploadManager.uploadFiles(files, currentGalleryId, (filename, current, total, status, error) => {
+      const results = await uploadManager.uploadFiles(files, currentGalleryId, (filename, current, total, status, error) => {
         let progressItem = document.getElementById(`upload-${current}`);
 
         if (!progressItem) {
@@ -244,13 +244,21 @@
         `;
       });
 
-      alert('Upload completed!');
+      // Show results based on success/failure
+      if (results.failed.length === 0) {
+        notify.success(`Upload completed! ${results.succeeded.length} file(s) uploaded successfully.`);
+      } else if (results.succeeded.length === 0) {
+        notify.error(`Upload failed! All ${results.failed.length} file(s) failed.\n\nReasons:\n${results.failed.map(f => `• ${f.filename}: ${f.error}`).join('\n')}`);
+      } else {
+        notify.warning(`Upload partially completed.\n\nSucceeded: ${results.succeeded.length}\nFailed: ${results.failed.length}\n\nFailed files:\n${results.failed.map(f => `• ${f.filename}: ${f.error}`).join('\n')}`, 10000);
+      }
+
       uploadMediaModal.classList.add('hidden');
       document.getElementById('mediaFiles').value = '';
       uploadProgress.classList.add('hidden');
       loadDashboard();
     } catch (error) {
-      alert('Upload failed: ' + error.message);
+      notify.error('Upload failed: ' + error.message);
     }
   });
 
@@ -388,35 +396,36 @@
     card.querySelector('.copy-btn').addEventListener('click', async () => {
       try {
         await navigator.clipboard.writeText(gallery.shareable_link);
-        alert(`Link copied!\n\n${gallery.shareable_link}\n\nRemember to share the password with your client.`);
+        notify.success(`Link copied to clipboard!\n\n${gallery.shareable_link}\n\nRemember to share the password with your client.`, 7000);
       } catch (error) {
-        alert(`Link: ${gallery.shareable_link}`);
+        notify.info(`Link: ${gallery.shareable_link}\n\nCopy manually (clipboard access denied)`, 10000);
       }
     });
 
     // Delete button
     card.querySelector('.delete-btn').addEventListener('click', async () => {
-      if (!confirm(`Delete gallery for ${gallery.client_name}?\n\nThis will delete all photos and videos. This action cannot be undone.`)) {
-        return;
-      }
+      notify.confirm(
+        `Delete gallery for ${gallery.client_name}?\n\nThis will delete all photos and videos. This action cannot be undone.`,
+        async () => {
+          try {
+            // Delete all media files from R2
+            await uploadManager.deleteGalleryMedia(gallery.gallery_id);
 
-      try {
-        // Delete all media files from R2
-        await uploadManager.deleteGalleryMedia(gallery.gallery_id);
+            // Delete gallery (media records will cascade delete)
+            const { error } = await db
+              .from('galleries')
+              .delete()
+              .eq('gallery_id', gallery.gallery_id);
 
-        // Delete gallery (media records will cascade delete)
-        const { error } = await db
-          .from('galleries')
-          .delete()
-          .eq('gallery_id', gallery.gallery_id);
+            if (error) throw error;
 
-        if (error) throw error;
-
-        loadDashboard();
-        alert('Gallery deleted successfully');
-      } catch (error) {
-        alert('Failed to delete gallery: ' + error.message);
-      }
+            loadDashboard();
+            notify.success('Gallery deleted successfully');
+          } catch (error) {
+            notify.error('Failed to delete gallery: ' + error.message);
+          }
+        }
+      );
     });
 
     return card;

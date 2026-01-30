@@ -18,8 +18,14 @@ class UploadManager {
    * @returns {Promise<Array>} Uploaded media records
    */
   async uploadFiles(files, galleryId, onProgress) {
-    const uploadedMedia = [];
+    const results = {
+      succeeded: [],
+      failed: [],
+      total: 0
+    };
+
     const fileArray = Array.from(files);
+    results.total = fileArray.length;
 
     for (let i = 0; i < fileArray.length; i++) {
       const file = fileArray[i];
@@ -28,6 +34,7 @@ class UploadManager {
 
       if (!isPhoto && !isVideo) {
         console.warn(`Skipping unsupported file: ${file.name}`);
+        results.failed.push({ filename: file.name, error: 'Unsupported file type' });
         continue;
       }
 
@@ -68,16 +75,17 @@ class UploadManager {
           .update({ [countField]: (gallery[countField] || 0) + 1 })
           .eq('gallery_id', galleryId);
 
-        uploadedMedia.push(data);
+        results.succeeded.push({ filename: file.name, data });
         onProgress?.(file.name, i + 1, fileArray.length, 'completed');
 
       } catch (error) {
         console.error(`Failed to upload ${file.name}:`, error);
+        results.failed.push({ filename: file.name, error: error.message });
         onProgress?.(file.name, i + 1, fileArray.length, 'failed', error.message);
       }
     }
 
-    return uploadedMedia;
+    return results;
   }
 
   /**
