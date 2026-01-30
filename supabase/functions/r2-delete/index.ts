@@ -5,7 +5,7 @@ import { serve } from 'https://deno.land/std@0.168.0/http/server.ts'
 import { S3Client, DeleteObjectCommand } from 'https://esm.sh/@aws-sdk/client-s3@3.400.0'
 
 const corsHeaders = {
-  'Access-Control-Allow-Origin': '*',
+  'Access-Control-Allow-Origin': 'calebthephotoguy.com',
   'Access-Control-Allow-Headers': 'authorization, x-client-info, apikey, content-type',
 }
 
