@@ -109,11 +109,22 @@ class UploadManager {
     });
 
     if (error) {
-      throw new Error(`Failed to get upload URL: ${error.message}`);
+      console.error('Edge Function error:', error);
+      throw new Error(`Failed to get upload URL: ${error.message || JSON.stringify(error)}`);
     }
 
-    if (!data || !data.uploadUrl || !data.publicUrl) {
-      throw new Error('Invalid response from upload URL generator');
+    if (!data) {
+      throw new Error('Edge Function returned no data');
+    }
+
+    console.log('Edge Function response:', data);
+
+    if (data.error) {
+      throw new Error(`Edge Function error: ${data.error}`);
+    }
+
+    if (!data.uploadUrl || !data.publicUrl) {
+      throw new Error(`Invalid response from upload URL generator: ${JSON.stringify(data)}`);
     }
 
     // Upload file to R2 using presigned URL
