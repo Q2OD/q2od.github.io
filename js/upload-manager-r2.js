@@ -1,6 +1,6 @@
 /**
- * Upload Manager for R2 Storage (Simplified - Public Bucket Only)
- * Handles file uploads directly to Cloudflare R2
+ * Upload Manager for Supabase Storage
+ * Handles file uploads to Supabase Storage bucket
  */
 
 class UploadManager {
@@ -8,7 +8,7 @@ class UploadManager {
     this.db = window.supabaseInit.supabase;
     this.generateUUID = window.supabaseInit.generateUUID;
     this.formatFileSize = window.supabaseInit.formatFileSize;
-    this.R2_CONFIG = window.supabaseInit.R2_CONFIG;
+    this.BUCKET_NAME = 'gallery-media'; // Supabase Storage bucket
   }
 
   /**
@@ -35,8 +35,8 @@ class UploadManager {
       try {
         onProgress?.(file.name, i + 1, fileArray.length, 'uploading');
 
-        // Upload to R2
-        const storageUrl = await this.uploadToR2(file, galleryId);
+        // Upload to Supabase Storage
+        const storageUrl = await this.uploadToStorage(file, galleryId);
 
         // Create media record in Supabase
         const mediaId = this.generateUUID();
@@ -82,53 +82,73 @@ class UploadManager {
   }
 
   /**
-   * Upload file directly to public R2 bucket
+   * Upload file to Supabase Storage
    * @param {File} file - File to upload
    * @param {string} galleryId - Gallery ID
-   * @returns {Promise<string>} R2 URL
+   * @returns {Promise<string>} Public URL
    */
-  async uploadToR2(file, galleryId) {
-    if (!this.R2_CONFIG.publicUrl) {
-      throw new Error('R2 public URL not configured. Please update js/supabase-init.js');
-    }
-
+  async uploadToStorage(file, galleryId) {
     const filename = `${Date.now()}_${file.name}`;
-    const key = `galleries/${galleryId}/${filename}`;
-    const url = `${this.R2_CONFIG.publicUrl}/${key}`;
+    const path = `galleries/${galleryId}/${filename}`;
 
-    // Upload directly to public R2 bucket
-    const response = await fetch(url, {
-      method: 'PUT',
-      body: file,
-      headers: {
-        'Content-Type': file.type
-      }
-    });
+    // Upload to Supabase Storage
+    const { data, error } = await this.db.storage
+      .from(this.BUCKET_NAME)
+      .upload(path, file, {
+        cacheControl: '3600',
+        upsert: false
+      });
 
-    if (!response.ok) {
-      throw new Error(`R2 upload failed: ${response.statusText}`);
+    if (error) {
+      throw new Error(`Storage upload failed: ${error.message}`);
     }
 
-    return url;
+    // Get public URL
+    const { data: urlData } = this.db.storage
+      .from(this.BUCKET_NAME)
+      .getPublicUrl(path);
+
+    return urlData.publicUrl;
   }
 
   /**
-   * Delete media file from R2
+   * Delete media file from Supabase Storage
    * @param {string} mediaId - Media ID
    * @param {string} storageUrl - Storage URL
    */
   async deleteMedia(mediaId, storageUrl) {
-    // Note: Deleting from public R2 bucket requires API credentials
-    // For now, we just delete from database
-    // Files will remain in R2 but won't be accessible via gallery
-    console.warn('File deletion from R2 not implemented (requires API credentials)');
-    console.warn('File will be removed from database but remain in R2');
+    try {
+      // Extract path from storage URL
+      const urlObj = new URL(storageUrl);
+      const pathMatch = urlObj.pathname.match(/\/storage\/v1\/object\/public\/[^/]+\/(.+)/);
 
-    // Delete from Supabase
-    await this.db
-      .from('media')
-      .delete()
-      .eq('media_id', mediaId);
+      if (pathMatch) {
+        const path = pathMatch[1];
+
+        // Delete from Supabase Storage
+        const { error } = await this.db.storage
+          .from(this.BUCKET_NAME)
+          .remove([path]);
+
+        if (error) {
+          console.error('Failed to delete from storage:', error);
+        }
+      }
+
+      // Delete from database
+      await this.db
+        .from('media')
+        .delete()
+        .eq('media_id', mediaId);
+
+    } catch (error) {
+      console.error('Failed to delete media:', error);
+      // Still try to delete from database even if storage delete fails
+      await this.db
+        .from('media')
+        .delete()
+        .eq('media_id', mediaId);
+    }
   }
 
   /**
