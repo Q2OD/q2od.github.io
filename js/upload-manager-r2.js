@@ -101,23 +101,29 @@ class UploadManager {
     const key = `galleries/${galleryId}/${timestamp}_${randomId}_${file.name}`;
 
     // Call Edge Function to get presigned upload URL
-    const { data, error } = await this.db.functions.invoke('r2-upload-url', {
+    console.log('Calling Edge Function with:', { key, contentType: file.type });
+
+    const response = await this.db.functions.invoke('r2-upload-url', {
       body: {
         key,
         contentType: file.type
       }
     });
 
-    if (error) {
-      console.error('Edge Function error:', error);
-      throw new Error(`Failed to get upload URL: ${error.message || JSON.stringify(error)}`);
+    console.log('Full Edge Function response:', response);
+
+    if (response.error) {
+      console.error('Edge Function error:', response.error);
+      throw new Error(`Failed to get upload URL: ${response.error.message || JSON.stringify(response.error)}`);
     }
+
+    const data = response.data;
 
     if (!data) {
       throw new Error('Edge Function returned no data');
     }
 
-    console.log('Edge Function response:', data);
+    console.log('Edge Function data:', data);
 
     if (data.error) {
       throw new Error(`Edge Function error: ${data.error}`);
