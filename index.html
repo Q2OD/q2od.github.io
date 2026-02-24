@@ -1276,22 +1276,19 @@
   <!-- ================================================== -->
   <script>
     // ==================================================
-    // PORTFOLIO — ADD YOUR YOUTUBE VIDEOS HERE
+    // PORTFOLIO ITEMS
     // ==================================================
-    // Each entry needs:
-    //   id       — YouTube video ID (the part after ?v= in the URL)
-    //   title    — Display title shown on the card
-    //   category — 'sports' | 'events' | 'commercial' | 'documentary'
-    //   desc     — Short subtitle (optional, e.g. "Basketball · 2025")
+    // YouTube entry:
+    //   { type: 'youtube', id: 'VIDEO_ID', title: '...', category: '...', desc: '...' }
     //
-    // Example:
-    //   { id: 'dQw4w9WgXcQ', title: 'Basketball Highlights', category: 'sports', desc: 'Oviedo High · 2025' }
+    // Instagram entry:
+    //   { type: 'instagram', url: 'https://www.instagram.com/p/.../', title: '...', category: '...', desc: '...' }
     //
     const portfolioItems = [
-      // Add your videos here:
-      // { id: 'YOUR_YOUTUBE_ID', title: 'Project Title', category: 'sports', desc: 'Description' },
-      // { id: 'YOUR_YOUTUBE_ID', title: 'Event Film', category: 'events', desc: 'Description' },
-      // { id: 'YOUR_YOUTUBE_ID', title: 'Brand Promo', category: 'commercial', desc: 'Description' },
+      { type: 'instagram', url: 'https://www.instagram.com/p/DVDFzdRiNal/', title: 'Sports Highlight', category: 'sports', desc: '' },
+      { type: 'instagram', url: 'https://www.instagram.com/p/DUKY5ACjjeo/', title: 'Sports Highlight', category: 'sports', desc: '' },
+      { type: 'instagram', url: 'https://www.instagram.com/p/DUKN4dgjhzS/', title: 'Sports Highlight', category: 'sports', desc: '' },
+      { type: 'instagram', url: 'https://www.instagram.com/p/DT8_cvuiFa5/', title: 'Sports Highlight', category: 'sports', desc: '' },
     ];
     // ==================================================
 
@@ -1319,27 +1316,55 @@
       empty.classList.add('hidden');
 
       filtered.forEach(item => {
-        const thumb = `https://img.youtube.com/vi/${item.id}/maxresdefault.jpg`;
         const label = CATEGORY_LABELS[item.category] || item.category;
         const card = document.createElement('div');
         card.className = 'rounded-2xl border border-white/10 overflow-hidden ring-soft cursor-pointer group transition-all hover:border-white/25 hover:shadow-glow-sm';
-        card.onclick = () => openVideo(item.id);
-        card.innerHTML = `
-          <div class="video-thumb relative" style="background-image:url('${thumb}')">
-            <div class="absolute inset-0 bg-black/30 group-hover:bg-black/10 transition-all flex items-center justify-center">
-              <div class="h-14 w-14 rounded-full bg-white/20 backdrop-blur-sm flex items-center justify-center group-hover:scale-110 transition-transform">
-                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="white" class="w-6 h-6 ml-1" aria-hidden="true"><path d="M8 5v14l11-7z"/></svg>
+
+        if (item.type === 'instagram') {
+          card.onclick = () => window.open(item.url, '_blank');
+          card.innerHTML = `
+            <div class="relative flex items-center justify-center" style="aspect-ratio:16/9; background: linear-gradient(135deg, #1a0a00 0%, #2d1200 40%, #1a0510 100%);">
+              <div class="absolute inset-0 opacity-20" style="background: radial-gradient(circle at 30% 50%, #ff6a00, transparent 60%), radial-gradient(circle at 80% 30%, #cc2366, transparent 50%);"></div>
+              <div class="relative flex flex-col items-center gap-3 group-hover:scale-105 transition-transform">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="white" class="w-10 h-10 opacity-90" aria-hidden="true">
+                  <path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zM12 0C8.741 0 8.333.014 7.053.072 2.695.272.273 2.69.073 7.052.014 8.333 0 8.741 0 12c0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98C8.333 23.986 8.741 24 12 24c3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98C15.668.014 15.259 0 12 0zm0 5.838a6.162 6.162 0 100 12.324 6.162 6.162 0 000-12.324zM12 16a4 4 0 110-8 4 4 0 010 8zm6.406-11.845a1.44 1.44 0 100 2.881 1.44 1.44 0 000-2.881z"/>
+                </svg>
+                <span class="text-xs text-white/60 font-medium">View on Instagram</span>
+              </div>
+              <div class="absolute top-3 left-3">
+                <span class="text-xs font-bold uppercase tracking-wider bg-blaze text-ink px-2 py-1 rounded-full">${label}</span>
+              </div>
+              <div class="absolute top-3 right-3">
+                <span class="text-xs text-white/40 bg-black/40 px-2 py-1 rounded-full">Instagram</span>
               </div>
             </div>
-            <div class="absolute top-3 left-3">
-              <span class="text-xs font-bold uppercase tracking-wider bg-blaze text-ink px-2 py-1 rounded-full">${label}</span>
+            <div class="p-4">
+              <h3 class="font-semibold text-white mb-1">${item.title}</h3>
+              ${item.desc ? `<p class="text-xs text-white/50">${item.desc}</p>` : ''}
             </div>
-          </div>
-          <div class="p-4">
-            <h3 class="font-semibold text-white mb-1">${item.title}</h3>
-            ${item.desc ? `<p class="text-xs text-white/50">${item.desc}</p>` : ''}
-          </div>
-        `;
+          `;
+        } else {
+          // YouTube
+          const thumb = `https://img.youtube.com/vi/${item.id}/maxresdefault.jpg`;
+          card.onclick = () => openVideo(item.id);
+          card.innerHTML = `
+            <div class="video-thumb relative" style="background-image:url('${thumb}')">
+              <div class="absolute inset-0 bg-black/30 group-hover:bg-black/10 transition-all flex items-center justify-center">
+                <div class="h-14 w-14 rounded-full bg-white/20 backdrop-blur-sm flex items-center justify-center group-hover:scale-110 transition-transform">
+                  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="white" class="w-6 h-6 ml-1" aria-hidden="true"><path d="M8 5v14l11-7z"/></svg>
+                </div>
+              </div>
+              <div class="absolute top-3 left-3">
+                <span class="text-xs font-bold uppercase tracking-wider bg-blaze text-ink px-2 py-1 rounded-full">${label}</span>
+              </div>
+            </div>
+            <div class="p-4">
+              <h3 class="font-semibold text-white mb-1">${item.title}</h3>
+              ${item.desc ? `<p class="text-xs text-white/50">${item.desc}</p>` : ''}
+            </div>
+          `;
+        }
+
         grid.appendChild(card);
       });
     }
